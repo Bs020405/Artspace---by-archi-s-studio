@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+{% block title %}{{ d.company or d.name }} — Designer — Artspace by Archi's Studio{% endblock %}
+
+{% block content %}
+{# safe defaults: the page still opens even if an older app.py (without the reviews code) is running #}
+{% set rating = rating if rating is defined else {'count': 0, 'avg': 0, 'pct': 0, 'cats': []} %}
+{% set reviews = reviews if reviews is defined else [] %}
+{% set can_review = can_review if can_review is defined else false %}
+{% set is_owner = is_owner if is_owner is defined else false %}
+{% set my_review = my_review if my_review is defined else none %}
+{% set review_login_url = review_login_url if review_login_url is defined else '/login' %}
+<style>
+/* ===== Designer profile — Houzz-style layout (scoped: dp-) ===== */
+.dp{font-family:'Helvetica Neue',Arial,sans-serif;color:#222;background:#fff}
+.dp-preview{padding:12px 20px;background:#fff3d6;border-bottom:1px solid #ecd9a3;color:#6b4620;font-size:14px;text-align:center;line-height:1.55}
+.dp-preview a{color:#8a5a2b;font-weight:700}
+.dp-wrap{padding-top:28px;padding-bottom:80px}
+.dp-back{display:inline-block;margin-bottom:18px;color:#555;text-decoration:none;font-size:14px;font-weight:600}
+.dp-back:hover{color:#8a5a2b}
+.dp-layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:36px;align-items:start}
+.dp-hero{aspect-ratio:21/10;max-height:520px;overflow:hidden;background:#f1ebe0;border-radius:4px}
+.dp-hero img{width:100%;height:100%;object-fit:cover;display:block}
+.dp-hero a{display:block;height:100%}
+.dp-hero-ph{height:100%;display:grid;place-items:center;background:#111;color:#c7a16d;font:600 90px 'Playfair Display',Georgia,serif}
+.dp-head{display:flex;align-items:center;gap:22px;margin:34px 0 8px;flex-wrap:wrap}
+.dp-logo{flex:none;width:104px;height:104px;border-radius:50%;object-fit:cover;border:1px solid #e6dcc9;background:#111}
+.dp-logo.mono{display:grid;place-items:center;color:#c7a16d;font:600 40px 'Playfair Display',Georgia,serif}
+.dp-head h1{margin:0;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:600;font-size:clamp(26px,3.4vw,38px);line-height:1.15;color:#111}
+.dp-owner{margin-top:2px;color:#8a5a2b;font-size:15px;font-weight:600}
+.dp-rate{display:flex;align-items:center;gap:9px;margin-top:8px;font-size:17px;color:#444;text-decoration:none}
+.dp-rate b{color:#d98e04;font-weight:500;font-size:18px}
+.dp-rate:hover span:last-child{text-decoration:underline}
+.dp-type{margin-top:10px;font-size:17px;color:#333}
+.dp-facts{display:flex;flex-wrap:wrap;gap:8px 22px;margin:12px 0 0;padding:0;list-style:none;color:#555;font-size:14.5px}
+.dp-facts li{display:flex;align-items:center;gap:7px}
+.dp-facts svg{width:16px;height:16px;color:#111;flex:none}
+.dp-stars{--p:0%;display:inline-block;font-size:20px;letter-spacing:2px;line-height:1;background:linear-gradient(90deg,#fbbf24 var(--p),#ddd var(--p));-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;vertical-align:middle}
+.dp-stars::before{content:"\2605\2605\2605\2605\2605"}
+.dp-stars.sm{font-size:16px}
+.dp-sec{margin-top:40px;padding-top:30px;border-top:1px solid #e9e4da}
+.dp-sec h2{margin:0 0 16px;font-size:26px;font-weight:600;color:#111}
+.dp-sec h2 small{font-size:15px;font-weight:400;color:#777;margin-left:8px}
+.dp-text{margin:0;color:#444;font-size:16px;line-height:1.75;white-space:pre-line}
+.dp-tags{display:flex;flex-wrap:wrap;gap:8px}
+.dp-tags span{padding:7px 15px;border:1px solid #e3d2b3;border-radius:99px;background:#fffaf1;color:#6b4620;font-size:13.5px}
+.dp-sub{margin:22px 0 10px;font-size:16px;font-weight:600;color:#111}
+.dp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.dp-pc{display:block;background:#fff;border-radius:8px;overflow:hidden;text-decoration:none;color:inherit;box-shadow:0 2px 14px rgba(0,0,0,.09);transition:box-shadow .25s,transform .25s}
+.dp-pc:hover{box-shadow:0 8px 26px rgba(0,0,0,.15);transform:translateY(-2px)}
+.dp-pc-img{aspect-ratio:3/2;overflow:hidden;background:#f1ebe0}
+.dp-pc-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.dp-pc:hover .dp-pc-img img{transform:scale(1.04)}
+.dp-pc-body{padding:18px 20px 20px}
+.dp-pc-t{font-size:18px;font-weight:600;color:#111}
+.dp-pc-l{display:flex;align-items:center;gap:8px;margin-top:12px;color:#555;font-size:15px}
+.dp-pc-l svg{width:17px;height:17px;flex:none;color:#111}
+.dp-pdfs{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.dp-pdfs a{display:flex;align-items:center;gap:10px;padding:11px 14px;border:1px solid #e3d2b3;border-radius:8px;background:#fffaf1;color:#6b4620;text-decoration:none;font-size:14px;word-break:break-all}
+.dp-pdfs a:hover{background:#f6efe2}
+.dp-pdfs b{flex:none;padding:3px 8px;border-radius:4px;background:#8a5a2b;color:#fff;font-size:11px;letter-spacing:.1em}
+/* sidebar */
+.dp-side{position:sticky;top:20px;background:#fff;border:1px solid #e3e0da;border-radius:4px;padding:26px 24px}
+.dp-side h3{margin:0 0 18px;font-size:19px;font-weight:600;color:#111}
+.dp-msg{display:block;text-align:center;padding:16px 18px;background:#222;border:1px solid #222;border-radius:6px;color:#fff!important;text-decoration:none;font-size:17px;font-weight:600;transition:.25s}
+.dp-msg:hover{background:#000}
+.dp-msg.off{opacity:.5;cursor:not-allowed}
+.dp-side p{margin:16px 0 0;color:#666;font-size:14px;line-height:1.6}
+.dp-id{margin-top:16px;text-align:center;font-size:12px;letter-spacing:.14em;color:#9a9a9a}
+/* reviews */
+.rv-top{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.rv-big{font-size:46px;font-weight:400;color:#111;line-height:1}
+.rv-top .dp-stars{font-size:36px}
+.rv-count{padding-left:18px;border-left:1px solid #ddd;font-size:19px;color:#333}
+.rv-bars{margin:22px 0 4px;display:grid;gap:12px;max-width:520px}
+.rv-bar{display:grid;grid-template-columns:150px 1fr 40px;align-items:center;gap:14px;font-size:16px;color:#333}
+.rv-track{height:10px;border-radius:99px;background:#eee;overflow:hidden}
+.rv-track i{display:block;height:100%;background:#fbbf24;border-radius:99px}
+.rv-actions{margin:28px 0 8px}
+.rv-btn{display:inline-block;padding:13px 26px;border:1.5px solid #222;border-radius:6px;background:#fff;color:#111!important;font-size:15px;font-weight:600;text-decoration:none;cursor:pointer;list-style:none}
+.rv-btn:hover{background:#222;color:#fff!important}
+.rv-write summary::-webkit-details-marker{display:none}
+.rv-write form{margin-top:18px;padding:22px;border:1px solid #e3e0da;border-radius:8px;background:#faf8f4;max-width:560px}
+.rv-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;font-size:16px;color:#333}
+.rv-pick{position:relative;display:inline-flex;flex-direction:row-reverse}
+.rv-pick input{position:absolute;opacity:0;width:1px;height:1px}
+.rv-pick label{font-size:30px;line-height:1;color:#d9d9d9;cursor:pointer;padding:0 2px}
+.rv-pick input:checked~label,.rv-pick label:hover,.rv-pick label:hover~label{color:#fbbf24}
+.rv-write textarea{width:100%;min-height:110px;margin-top:8px;padding:12px 14px;border:1px solid #d9d2c3;border-radius:8px;font:400 15px/1.6 'Helvetica Neue',Arial,sans-serif;background:#fff;resize:vertical}
+.rv-submit{margin-top:14px;padding:14px 28px;border:0;border-radius:6px;background:#222;color:#fff;font-size:15px;font-weight:600;cursor:pointer}
+.rv-submit:hover{background:#000}
+.rv-note{margin:0;color:#777;font-size:14.5px}
+.rv-list{margin-top:26px;border-top:1px solid #e9e4da}
+.rv-item{padding:26px 0;border-bottom:1px solid #e9e4da}
+.rv-who{display:flex;align-items:center;gap:14px}
+.rv-av{flex:none;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:#111;color:#c7a16d;font:600 22px 'Playfair Display',Georgia,serif}
+.rv-name{font-size:17px;letter-spacing:.02em;text-transform:uppercase;color:#222}
+.rv-text{margin:16px 0 0;color:#333;font-size:16px;line-height:1.7;white-space:pre-line}
+.rv-text.clamp{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.rv-more{margin-top:6px;padding:0;border:0;background:none;color:#111;font-size:15px;font-weight:700;cursor:pointer}
+.rv-meta{margin-top:14px;color:#888;font-size:14px}
+.rv-cats{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:10px;color:#666;font-size:13.5px}
+.rv-empty{padding:26px 0;color:#777;font-size:15.5px}
+@media(max-width:960px){.dp-layout{grid-template-columns:1fr}.dp-side{position:static;order:-1}}
+@media(max-width:620px){.dp-grid{grid-template-columns:1fr}.dp-hero{aspect-ratio:4/3}.dp-logo{width:80px;height:80px}.rv-bar{grid-template-columns:110px 1fr 36px;font-size:14.5px}.rv-big{font-size:36px}.rv-top .dp-stars{font-size:28px}}
+</style>
+<div class="dp">
+  {% if preview %}
+  <div class="dp-preview"><b>Preview.</b>
+    {% if public %}This is your live public profile.{% elif approval == 'Rejected' %}Your profile was hidden by our team, so it is not shown on the website.{% else %}Your profile is live on the Find Designers page.{% endif %}
+    <a href="{{ url_for('designer_dashboard') }}">&larr; Back to dashboard</a></div>
+  {% endif %}
+
+  <div class="container dp-wrap">
+    <a class="dp-back" href="{{ url_for('designers_directory') }}">&larr; Find Designers</a>
+    <div class="dp-layout">
+
+      <div class="dp-main">
+        <div class="dp-hero">
+          {% if d.cover %}<a href="{{ d.cover }}" target="_blank" rel="noopener"><img src="{{ d.cover }}" alt="{{ d.company or d.name }}"></a>
+          {% elif d.photo %}<img src="{{ d.photo }}" alt="{{ d.name }}">
+          {% else %}<div class="dp-hero-ph">{{ (d.company or d.name)[:1]|upper }}</div>{% endif %}
+        </div>
+
+        <div class="dp-head">
+          {% if d.photo %}<img class="dp-logo" src="{{ d.photo }}" alt="{{ d.name }}">
+          {% else %}<div class="dp-logo mono">{{ (d.company or d.name)[:1]|upper }}</div>{% endif %}
+          <div>
+            <h1>{{ d.company or d.name }}</h1>
+            {% if d.company %}<div class="dp-owner">{{ d.name }}</div>{% endif %}
+            {% if rating.count %}
+            <a class="dp-rate" href="#reviews"><b>{{ '%.1f'|format(rating.avg) }}</b> <span class="dp-stars" style="--p:{{ rating.pct }}%" aria-hidden="true"></span> <span>{{ rating.count }} Review{{ '' if rating.count == 1 else 's' }}</span></a>
+            {% else %}
+            <a class="dp-rate" href="#reviews"><span>No reviews yet</span></a>
+            {% endif %}
+            <div class="dp-type">{{ d.type }}</div>
+          </div>
+        </div>
+        <ul class="dp-facts">
+          {% if d.city %}<li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12zm0-9.5A2.5 2.5 0 1112 7.5a2.5 2.5 0 010 5z"/></svg>{{ d.city }}</li>{% endif %}
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 012-2h2a2 2 0 012 2v2"/></svg>{{ d.experience_text }}</li>
+        </ul>
+
+        {% if d.details %}<div class="dp-sec"><h2>About</h2><p class="dp-text">{{ d.details }}</p></div>{% endif %}
+        {% if d.specialisations %}<div class="dp-sec"><h2>Specialisation</h2><div class="dp-tags">{% for t in d.specialisations %}<span>{{ t }}</span>{% endfor %}</div></div>{% endif %}
+        {% if d.services %}<div class="dp-sec"><h2>Services</h2><div class="dp-tags">{% for t in d.services %}<span>{{ t }}</span>{% endfor %}</div></div>{% endif %}
+
+        {% if d.portfolio %}
+        <div class="dp-sec" id="projects"><h2>{{ d.portfolio|length }} Project{{ '' if d.portfolio|length == 1 else 's' }}</h2>
+          <div class="dp-grid">
+            {% for f in d.portfolio %}
+            <a class="dp-pc" href="{{ f.url }}" target="_blank" rel="noopener">
+              <div class="dp-pc-img"><img src="{{ f.url }}" alt="Project {{ loop.index }}" loading="lazy"></div>
+              <div class="dp-pc-body">
+                <div class="dp-pc-t">Project {{ loop.index }}</div>
+                {% if d.city %}<div class="dp-pc-l"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12zm0-9.5A2.5 2.5 0 1112 7.5a2.5 2.5 0 010 5z"/></svg>{{ d.city }}</div>{% endif %}
+              </div>
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+
+        {% if d.projects or d.projects_summary %}
+        <div class="dp-sec"><h2>Completed projects{% if d.projects %}<small>{{ d.projects|length }} file{{ '' if d.projects|length == 1 else 's' }}</small>{% endif %}</h2>
+          {% if d.projects_summary %}<p class="dp-text">{{ d.projects_summary }}</p>{% endif %}
+          {% set imgs = d.projects|rejectattr('pdf')|list %}
+          {% set pdfs = d.projects|selectattr('pdf')|list %}
+          {% if imgs %}<div class="dp-grid" style="margin-top:20px;">{% for f in imgs %}
+            <a class="dp-pc" href="{{ f.url }}" target="_blank" rel="noopener"><div class="dp-pc-img"><img src="{{ f.url }}" alt="Completed project {{ loop.index }}" loading="lazy"></div>
+              <div class="dp-pc-body"><div class="dp-pc-t">Completed project {{ loop.index }}</div></div></a>{% endfor %}</div>{% endif %}
+          {% if pdfs %}<div class="dp-pdfs">{% for f in pdfs %}<a href="{{ f.url }}" target="_blank" rel="noopener"><b>PDF</b> {{ f.name }}</a>{% endfor %}</div>{% endif %}
+        </div>
+        {% endif %}
+
+        <!-- ===== Reviews ===== -->
+        <div class="dp-sec" id="reviews"><h2>Reviews</h2>
+          {% if rating.count %}
+          <div class="rv-top">
+            <span class="dp-stars" style="--p:{{ rating.pct }}%" aria-hidden="true"></span>
+            <span class="rv-big">{{ '%.1f'|format(rating.avg) }}</span>
+            <span class="rv-count">{{ rating.count }} review{{ '' if rating.count == 1 else 's' }}</span>
+          </div>
+          <div class="rv-bars">
+            {% for c in rating.cats %}<div class="rv-bar"><span>{{ c.label }}</span><div class="rv-track"><i style="width:{{ c.pct }}%"></i></div><span>{{ '%.1f'|format(c.avg) }}</span></div>{% endfor %}
+          </div>
+          {% endif %}
+
+          <div class="rv-actions">
+            {% if can_review %}
+            <details class="rv-write" {% if not rating.count %}open{% endif %}>
+              <summary class="rv-btn">{{ 'Edit your review' if my_review else 'Write a review' }}</summary>
+              <form method="POST" action="{{ url_for('designer_review', designer_id=d.id) }}">
+                {% for key, label in [('work','Work Quality'),('comm','Communication'),('value','Value')] %}
+                <div class="rv-row"><span>{{ label }}</span>
+                  <div class="rv-pick">{% for n in [5,4,3,2,1] %}<input type="radio" id="rv_{{ key }}{{ n }}" name="{{ key }}" value="{{ n }}" {% if my_review and my_review[key] == n %}checked{% endif %} required><label for="rv_{{ key }}{{ n }}" title="{{ n }} star{{ '' if n == 1 else 's' }}">&#9733;</label>{% endfor %}</div>
+                </div>
+                {% endfor %}
+                <textarea name="review" maxlength="1000" placeholder="Tell others about your experience with {{ d.company or d.name }} (optional)">{{ my_review.text if my_review else '' }}</textarea>
+                <button class="rv-submit" type="submit">{{ 'Update review' if my_review else 'Submit review' }}</button>
+              </form>
+            </details>
+            {% elif preview %}<p class="rv-note">Customers who are logged in can rate you here. You cannot rate yourself.</p>
+            {% elif is_owner %}<p class="rv-note">This is your own profile, so you cannot rate it.</p>
+            {% else %}<a class="rv-btn" href="{{ review_login_url }}">Log in to write a review</a>{% endif %}
+          </div>
+
+          <div class="rv-list">
+            {% if not reviews %}<div class="rv-empty">No reviews yet. Be the first to rate {{ d.company or d.name }}.</div>{% endif %}
+            {% for r in reviews %}
+            <div class="rv-item">
+              <div class="rv-who"><div class="rv-av">{{ r.initial }}</div>
+                <div><div class="rv-name">{{ r.name }}</div><span class="dp-stars sm" style="--p:{{ r.pct }}%" aria-label="{{ '%.1f'|format(r.overall) }} out of 5"></span></div></div>
+              {% if r.text %}<p class="rv-text clamp">{{ r.text }}</p><button class="rv-more" type="button" hidden>Read More &#9662;</button>{% endif %}
+              <div class="rv-cats">{% for lab, val in r.cats %}<span>{{ lab }}: {{ '%.0f'|format(val) }}/5</span>{% endfor %}</div>
+              <div class="rv-meta">{{ r.date }}</div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <aside class="dp-side">
+        <h3>Contact {{ d.company or d.name }}</h3>
+        {% if preview %}<span class="dp-msg off" title="Customers will see this button on your public profile">Send Message</span>
+        {% else %}<a class="dp-msg" href="{{ url_for('designer_hire', designer_id=d.id) }}">Send Message</a>{% endif %}
+        <p>Tell {{ d.company or d.name }} about your property and budget with a quick enquiry.</p>
+        <div class="dp-id">DESIGNER ID &middot; {{ d.id }}</div>
+      </aside>
+
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  document.querySelectorAll('.rv-text.clamp').forEach(function (p) {
+    var btn = p.nextElementSibling;
+    if (!btn || !btn.classList.contains('rv-more')) return;
+    if (p.scrollHeight > p.clientHeight + 2) btn.hidden = false;
+    btn.addEventListener('click', function () {
+      var open = p.classList.toggle('clamp');
+      btn.innerHTML = open ? 'Read More &#9662;' : 'Show Less &#9652;';
+    });
+  });
+})();
+</script>
+{% endblock %}

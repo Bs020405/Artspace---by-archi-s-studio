@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Pay & Book — Interior Company{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+  <div class="auth-card">
+    <div class="auth-kicker">STEP 1 OF 2</div>
+    <h1 class="auth-title">Consultation Fee</h1>
+    <p class="auth-sub">Pay a small booking fee to unlock your consultation form.</p>
+
+    <div class="profile-field"><span>Consultation booking fee</span><span>₹{{ amount // 100 }}</span></div>
+    <p class="auth-sub" style="margin-top:14px;">Pay with UPI QR, Net Banking, or Card.</p>
+
+    <button id="payBtn" type="button" class="btn-solid">PAY ₹{{ amount // 100 }}</button>
+    <p id="payMsg" style="margin-top:12px;color:#b00;"></p>
+
+    <div class="auth-foot"><a href="{{ url_for('dashboard') }}">← Back to My Account</a></div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+document.getElementById("payBtn").addEventListener("click", function () {
+  const msg = document.getElementById("payMsg");
+  msg.textContent = "";
+  const rzp = new Razorpay({
+    key: {{ key_id|tojson }},
+    amount: {{ amount }},
+    currency: "INR",
+    name: "Interior Company",
+    description: "Design Consultation Booking Fee",
+    order_id: {{ order_id|tojson }},
+    prefill: {
+      name: {{ user['Full Name']|tojson }},
+      email: {{ user['Email']|tojson }},
+      contact: {{ (user['Phone']|string)|tojson }}
+    },
+    theme: { color: "#111111" },
+    handler: async function (resp) {
+      msg.style.color = "#555";
+      msg.textContent = "Verifying payment…";
+      try {
+        const r = await fetch({{ url_for('verify_payment')|tojson }}, {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(resp)
+        });
+        const j = await r.json();
+        if (j.ok) { window.location = j.redirect; }
+        else { msg.style.color = "#b00"; msg.textContent = j.error || "Payment could not be verified."; }
+      } catch (e) {
+        msg.style.color = "#b00";
+        msg.textContent = "Network error while verifying. Do not pay again — contact us with your payment ID.";
+      }
+    }
+  });
+  rzp.on("payment.failed", function (e) {
+    msg.style.color = "#b00";
+    msg.textContent = e.error.description;
+  });
+  rzp.open();
+});
+</script>
+{% endblock %}

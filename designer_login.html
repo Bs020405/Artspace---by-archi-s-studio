@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Designer Login — Artspace by Archi's Studio{% endblock %}
+
+{% block content %}
+<style>
+.dl{padding:56px 0 84px;background:linear-gradient(180deg,#fff 0%,#f6efe2 100%);font-family:'Helvetica Neue',Arial,sans-serif;color:#111}
+.dl-card{max-width:480px;margin:0 auto;background:#fff;border:1px solid #eadfcb;border-top:3px solid #c7a16d;border-radius:16px;padding:38px 34px 32px;box-shadow:0 20px 56px rgba(138,90,43,.14)}
+.dl-kick{display:inline-flex;align-items:center;gap:12px;font-size:12px;letter-spacing:.3em;font-weight:700;color:#8a5a2b}
+.dl-kick::before{content:"";width:34px;height:1px;background:#c7a16d}
+.dl-card h1{margin:14px 0 8px;font-family:'Playfair Display',Georgia,serif;font-weight:400;font-size:clamp(28px,4vw,38px);line-height:1.12}
+.dl-card h1 em{font-style:italic;font-weight:600;color:#8a5a2b}
+.dl-card p{margin:0 0 22px;color:#555;font-size:15px;line-height:1.65}
+.dl-f{margin-bottom:16px}
+.dl-card label{display:block;margin-bottom:7px;font-size:13.5px;font-weight:600;color:#222}
+.dl-card input[type=text],.dl-card input[type=password]{width:100%;padding:13px 14px;border:1px solid #ddd3bf;border-radius:8px;background:#fffdf9;color:#111;font:400 15px/1.4 'DM Sans','Helvetica Neue',Arial,sans-serif}
+.dl-card input:focus{outline:none;border-color:#8a5a2b;box-shadow:0 0 0 3px rgba(199,161,109,.3);background:#fff}
+.dl-btn{width:100%;margin-top:8px;padding:16px 20px;border:1px solid #8a5a2b;border-radius:8px;background:#8a5a2b;color:#fff;font:700 13px/1 'Helvetica Neue',Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:.3s}
+.dl-btn:hover{background:#111;border-color:#111}
+.dl-foot{margin-top:22px;padding-top:18px;border-top:1px solid #f0e6d3;font-size:13.5px;color:#666;line-height:1.8;text-align:center}
+.dl-foot a{color:#8a5a2b;font-weight:700}
+</style>
+<section class="dl">
+  <div class="container">
+    <div class="dl-card">
+      <span class="dl-kick">DESIGNER LOGIN</span>
+      <h1>Manage your <em>profile.</em></h1>
+      <p>Log in with your <b>Designer ID</b> (for example DSN-0001) <b>or your registered e-mail</b> and the password you created at registration.</p>
+      <form method="POST" action="{{ url_for('designer_login') }}">
+        <div class="dl-f"><label for="dl_id">Designer ID or Email</label>
+          <input type="text" id="dl_id" name="designer_id" value="{{ designer_id or '' }}" placeholder="DSN-0001 or you@example.com" autocomplete="username" autocapitalize="none" spellcheck="false" required></div>
+        <div class="dl-f"><label for="dl_pw">Password</label>
+          <input type="password" id="dl_pw" name="password" autocomplete="current-password" required></div>
+        <button class="dl-btn" type="submit">Log in</button>
+      </form>
+      <div class="dl-foot">
+        Forgot your password? <a href="https://wa.me/918320351503?text=Hi%20Artspace%2C%20I%20forgot%20my%20designer%20password." target="_blank" rel="noopener">Contact us on WhatsApp</a> and we will reset it.<br>
+        Not registered yet? <a href="{{ url_for('join_designer') }}">Join as a Designer</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

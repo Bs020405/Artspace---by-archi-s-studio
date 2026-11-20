@@ -1,0 +1,369 @@
+{% extends "base.html" %}
+{% block title %}Find Designers — Artspace by Archi's Studio{% endblock %}
+
+{% block hero_top %}
+{# Shared navbar (same look as index.html hero nav) — static: no slider, no pulse/keyframe animation #}
+<style>
+body > header, body > nav, .site-header, .topbar, header.top, header.site-header{display:none!important}
+.hx-wrap{--accent:#c7a16d;font-family:'Helvetica Neue',Arial,sans-serif;color:#fff}
+.hx-wrap *{box-sizing:border-box}
+.hx-wrap a{color:inherit;text-decoration:none}
+html{scroll-padding-top:90px}
+.hx-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:clamp(20px,3vw,48px);padding:0 4vw;height:84px;border-bottom:1px solid rgba(255,255,255,.18);transition:background .35s,height .35s,box-shadow .35s,color .35s}
+.hx-nav.stuck{background:rgba(255,255,255,.97);backdrop-filter:blur(8px);height:76px;color:#111;border-bottom-color:transparent;box-shadow:0 6px 24px rgba(0,0,0,.12)}
+.hx-nav.stuck .hx-menu>li>a{padding:26px 0}
+.hx-nav.stuck .hx-menu>li>a::after{bottom:18px}
+.hx-nav.stuck .hx-drop{top:74px}
+.hx-nav.stuck .hx-burger span{background:#111}
+.hx-nav.stuck .hx-menu>li>a,.hx-nav.stuck .hx-call{color:#111}
+.hx-logo{flex:none;display:flex;align-items:center;gap:12px;background:transparent;color:#fff!important;font-weight:400;letter-spacing:0;padding:0;height:100%;box-shadow:none}
+.hx-amark{width:42px;height:42px;color:var(--accent);flex:none;filter:drop-shadow(0 2px 8px rgba(0,0,0,.35))}
+.hx-word{display:flex;flex-direction:column;line-height:1;gap:6px}
+.hx-name{font-family:'Playfair Display',Georgia,serif;font-size:30px;font-weight:600;letter-spacing:.06em;text-shadow:0 2px 14px rgba(0,0,0,.35)}
+.hx-name b{font-weight:700;font-style:italic;background:linear-gradient(135deg,#f1d9a8 0%,#c7a16d 50%,#a97d3e 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-right:1px}
+.hx-word small{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.92);white-space:nowrap}
+.hx-word small::before{content:"";width:22px;height:1px;background:var(--accent)}
+.hx-nav.stuck .hx-name{text-shadow:none}
+.hx-nav.stuck .hx-name b{background:linear-gradient(135deg,#b07a3a,#8a5a2b);-webkit-background-clip:text;background-clip:text}
+.hx-nav.stuck .hx-word small{color:#8a5a2b}
+.hx-nav.stuck .hx-logo{color:#111!important}
+.hx-nav.stuck .hx-amark{color:#8a5a2b;filter:none}
+.hx-menu{flex:1;display:flex;align-items:center;justify-content:center;gap:clamp(18px,2.1vw,40px);list-style:none;margin:0;padding:0}
+.hx-menu>li{position:relative}
+.hx-menu>li>a{font-size:12.5px;letter-spacing:.13em;white-space:nowrap;font-weight:600;text-transform:uppercase;padding:30px 0;display:inline-flex;align-items:center;gap:6px;position:relative}
+.hx-menu>li>a::after{content:"";position:absolute;left:0;bottom:22px;height:2px;width:0;background:var(--accent);transition:width .3s}
+.hx-menu>li:hover>a::after{width:100%}
+.hx-menu .chev{width:9px;height:9px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-2px)}
+.hx-drop{position:absolute;top:78px;left:-20px;min-width:260px;background:rgba(17,17,17,.96);backdrop-filter:blur(8px);padding:12px 0;opacity:0;visibility:hidden;transform:translateY(10px);transition:.25s;border-top:3px solid var(--accent)}
+.hx-menu>li:hover .hx-drop{opacity:1;visibility:visible;transform:none}
+.hx-drop a{display:block;padding:10px 24px;font-size:14px;color:#ddd;transition:.2s}
+.hx-drop a:hover{background:rgba(255,255,255,.07);color:var(--accent);padding-left:30px}
+.hx-right{flex:none;display:flex;align-items:center;gap:16px}
+.hx-call{display:flex;align-items:center;gap:12px;font-size:13px;letter-spacing:.12em;font-weight:600;text-transform:uppercase;white-space:nowrap;border:1px solid rgba(255,255,255,.45);border-radius:99px;padding:5px 20px 5px 5px;transition:.3s}
+.hx-call:hover{background:rgba(255,255,255,.12);border-color:var(--accent)}
+.hx-call i{width:34px;height:34px;border-radius:50%;background:var(--accent);color:#111;display:grid;place-items:center;font-style:normal;font-size:15px}
+.hx-nav.stuck .hx-call{border-color:#d8d2c6}
+.hx-nav.stuck .hx-call:hover{background:#f6efe2;border-color:#c7a16d}
+.hx-burger{display:none;background:none;border:0;width:34px;height:24px;position:relative;cursor:pointer}
+.hx-burger span{position:absolute;left:0;right:0;height:2px;background:#fff}
+.hx-burger span:nth-child(1){top:2px}.hx-burger span:nth-child(2){top:11px}.hx-burger span:nth-child(3){top:20px}
+.hx-nav .hx-menu>li>a.hx-des{color:var(--accent)}
+.hx-nav.stuck .hx-menu>li>a.hx-des{color:#8a5a2b}
+.hx-mob{position:fixed;inset:0;z-index:150;background:#111;padding:90px 28px 30px;display:none;overflow:auto}
+.hx-mob.open{display:block}
+.hx-mob a{display:block;padding:14px 0;border-bottom:1px solid #2a2a2a;font-size:17px;color:#fff;text-decoration:none}
+.hx-mob .x{position:absolute;top:22px;right:26px;background:none;border:0;color:#fff;font-size:34px;cursor:pointer}
+.hx-mob a.hx-mob-join{color:#c7a16d;font-weight:700}
+@media(min-width:1101px) and (max-width:1359px){
+  .hx-nav{padding:0 2.4vw;gap:16px}.hx-amark{width:36px;height:36px}.hx-logo{gap:10px}.hx-name{font-size:26px}
+  .hx-word small{font-size:9px;letter-spacing:.24em}.hx-menu{gap:clamp(12px,1.4vw,22px)}
+  .hx-menu>li>a{font-size:12px;letter-spacing:.09em}.hx-right{gap:12px}
+  .hx-call{font-size:12px;letter-spacing:.09em;gap:8px;padding:4px 14px 4px 4px}.hx-call i{width:30px;height:30px;font-size:13px}
+}
+@media(min-width:821px) and (max-width:1100px){
+  .hx-nav{padding:0 2vw;gap:10px}.hx-amark{width:30px;height:30px}.hx-logo{gap:8px}.hx-name{font-size:21px}
+  .hx-word small{font-size:7.5px;letter-spacing:.16em}.hx-word small::before{width:12px}
+  .hx-menu{gap:12px}.hx-menu>li>a{font-size:10.5px;letter-spacing:.05em;gap:4px}.hx-menu>li>a em{font-size:8px!important;padding:2px 4px!important;margin-left:0!important}
+  .hx-right{gap:8px}.hx-call{font-size:0;padding:3px;gap:0}.hx-call i{width:28px;height:28px;font-size:13px}
+}
+@media(min-width:701px){.hx-nav{height:76px}.hx-nav.stuck{height:68px}}
+@media(max-width:820px){.hx-menu,.hx-call{display:none}.hx-burger{display:block}}
+@media(max-width:700px){.hx-amark{width:36px;height:36px}.hx-nav{height:64px}}
+@media(max-width:480px){.hx-nav{padding:0 14px}.hx-logo{gap:9px}.hx-name{font-size:23px}.hx-word small{font-size:8.5px;letter-spacing:.2em}.hx-word small::before{width:14px}.hx-amark{width:34px;height:34px}.hx-mob{padding:80px 22px 24px}}
+@media(max-width:340px){.hx-logo{gap:6px}.hx-name{font-size:20px}.hx-word small{font-size:7.5px;letter-spacing:.14em}.hx-word small::before{display:none}.hx-amark{width:28px;height:28px}}
+</style>
+
+<div class="hx-wrap">
+  <header class="hx-nav">
+    <a class="hx-logo" href="{{ url_for('index') }}" aria-label="Artspace home">
+      <svg class="hx-amark" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M9 56L32 8l23 48" stroke-width="4.5"/>
+        <path d="M19 41q13-15 26 0" stroke-width="3.2"/>
+        <path d="M32 56V44" stroke-width="3.2"/>
+        <circle cx="32" cy="8" r="3.2" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="hx-word"><span class="hx-name"><b>Art</b>space</span><small>by Archi's Studio</small></span>
+    </a>
+    <ul class="hx-menu">
+      <li><a href="{{ url_for('index') }}">Home</a></li>
+      <li><a href="{{ url_for('index') }}#services">Services <span class="chev"></span></a>
+        <div class="hx-drop">
+          <a href="{{ url_for('living_room_design') }}">Living Room Design</a>
+          <a href="{{ url_for('bedroom_design') }}">Bedroom Design</a>
+          <a href="{{ url_for('kitchen_design') }}">Kitchen &amp; Dining</a>
+          <a href="{{ url_for('lighting_design') }}">Lighting &amp; Decor</a>
+          <a href="{{ url_for('wall_panels') }}">Wall Panels &amp; Textures</a>
+          <a href="{{ url_for('painting_colour') }}">Painting &amp; Colour</a>
+          <a href="{{ url_for('smart_home') }}">Smart Home &amp; Appliances</a>
+        </div></li>
+      <li><a href="{{ url_for('index') }}#products">Products</a></li>
+      <li><a href="{{ url_for('index') }}#projects">Projects</a></li>
+      <li><a href="{{ url_for('careers') }}">Careers <em style="font-style:normal;background:#c7a16d;color:#111;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;margin-left:4px;letter-spacing:.08em">HIRING</em> <span class="chev"></span></a>
+        <div class="hx-drop">
+          <a href="{{ url_for('designers_directory') }}">Find Designers</a>
+          <a href="{{ url_for('join_designer') }}">Join as a Designer</a>
+          <a href="{{ url_for('designer_login') }}">Designer Login</a>
+        </div></li>
+    </ul>
+    <div class="hx-right">
+      {% if current_user_email %}
+        <a class="hx-call" href="{{ url_for('book_consultation') }}"><i>✆</i>Book Now</a>
+      {% else %}
+        <a class="hx-call" href="{{ url_for('login') }}"><i>👤</i>Log in</a>
+      {% endif %}
+      <button class="hx-burger" aria-label="Open menu" onclick="document.getElementById('hxMob').classList.add('open')"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <div class="hx-mob" id="hxMob">
+    <button class="x" aria-label="Close menu" onclick="this.parentNode.classList.remove('open')">×</button>
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('index') }}#services">Services</a>
+    <a href="{{ url_for('index') }}#products">Products</a>
+    <a href="{{ url_for('index') }}#projects">Projects</a>
+    <a href="{{ url_for('careers') }}">Careers <span style="background:#c7a16d;color:#111;font-size:11px;padding:2px 7px;border-radius:4px;margin-left:6px;letter-spacing:.1em">HIRING</span></a>
+    <a class="hx-mob-join" href="{{ url_for('designers_directory') }}">Find Designers</a>
+    <a class="hx-mob-join" href="{{ url_for('join_designer') }}">Join as a Designer</a>
+    <a class="hx-mob-join" href="{{ url_for('designer_login') }}">Designer Login</a>
+    <a href="{{ url_for('index') }}#contact">Contact</a>
+    {% if current_user_email %}<a href="{{ url_for('book_consultation') }}">Book a Consultation</a>{% else %}<a href="{{ url_for('login') }}">Log in</a><a href="{{ url_for('register') }}">Register</a>{% endif %}
+  </div>
+</div>
+
+<script>
+(function(){
+  var nav=document.querySelector('.hx-nav'),wrap=document.querySelector('.hx-wrap');
+  if(!nav)return;
+  document.querySelectorAll('#hxMob a').forEach(function(a){a.addEventListener('click',function(){document.getElementById('hxMob').classList.remove('open');});});
+  /* keep the nav below any existing fixed top bar of the base template */
+  var bars=[];
+  function findBars(){
+    var w=window.innerWidth;bars=[];
+    document.querySelectorAll('body *').forEach(function(el){
+      if(el.closest('.hx-wrap'))return;
+      var cs=getComputedStyle(el);
+      if(cs.position!=='fixed'&&cs.position!=='sticky')return;
+      var r=el.getBoundingClientRect();
+      if(r.width>=w*0.8&&r.height>0&&r.height<220&&r.top<=2)bars.push(el);
+    });
+  }
+  function place(){
+    var off=0;
+    bars.forEach(function(el){var r=el.getBoundingClientRect();if(r.top<=2)off=Math.max(off,r.bottom);});
+    var t=wrap.getBoundingClientRect().top;
+    if(t>0&&t<220)off=Math.max(off,t);
+    nav.style.top=Math.max(0,Math.round(off))+'px';
+  }
+  function stick(){nav.classList.toggle('stuck',window.scrollY>60);}
+  findBars();place();stick();
+  window.addEventListener('load',function(){findBars();place();});
+  window.addEventListener('resize',function(){findBars();place();});
+  window.addEventListener('scroll',function(){place();stick();},{passive:true});
+  /* hide the big "INTERIOR COMPANY" wordmark that comes from base.html */
+  function hideBig(){
+    document.querySelectorAll('body *').forEach(function(el){
+      if(el.closest('.hx-wrap,.dp,script,style'))return;
+      var t=(el.textContent||'').replace(/[\s\u2736\u273A]+/g,' ').trim().toUpperCase();
+      if(t!=='INTERIOR COMPANY'&&t!=='ARTSPACE')return;
+      if(parseFloat(getComputedStyle(el).fontSize)>=36)el.style.display='none';
+    });
+  }
+  hideBig();window.addEventListener('load',hideBig);
+})();
+</script>
+
+
+  <section class="dp-hero">
+    <div class="container">
+      <h1>Get Matched with <em>Local Professionals</em></h1>
+      <ol class="dp-steps">
+        <li>
+          <span class="dp-ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 21V9l7-4v16H3zm9 0V3h9v18h-9zm2-14v2h2V7h-2zm4 0v2h2V7h-2zm-4 4v2h2v-2h-2zm4 0v2h2v-2h-2zm-4 4v2h2v-2h-2zm4 0v2h2v-2h-2z"/></svg></span>
+          <span class="dp-step-t">Answer questions<br>about your project</span>
+        </li>
+        <li>
+          <span class="dp-ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M2 19c0-3 3-5 6-5s6 2 6 5v1H2v-1zm12.5-4.8c.5-.1 1-.2 1.5-.2 3 0 6 2 6 5v1h-6v-1c0-1.9-.6-3.5-1.5-4.8z"/></svg></span>
+          <span class="dp-step-t">Get connected with<br>pros for free</span>
+        </li>
+        <li>
+          <span class="dp-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 11l4-3 4 1 3-2 4 3 5-1v6l-4 1-3 3-3-1-2 1-4-3-4-1z"/></svg></span>
+          <span class="dp-step-t">Hire the right pro<br>with confidence</span>
+        </li>
+      </ol>
+      <form class="dp-search" id="dpSearch" role="search" onsubmit="return false">
+        <label class="dp-sbox">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12zm0-9.5A2.5 2.5 0 1112 7.5a2.5 2.5 0 010 5z"/></svg>
+          <input type="text" id="dpCity" placeholder="Search City" autocomplete="off" aria-label="Search city">
+        </label>
+        <button type="submit" class="dp-go" id="dpGo">Get Started</button>
+      </form>
+      {% if designers %}<div class="dp-count-line" id="dpCount">{{ designers|length }} designer{{ '' if designers|length == 1 else 's' }} available</div>{% endif %}
+    </div>
+  </section>
+
+<style>
+/* ===== Find Designers (scoped: dp-) ===== */
+.brand-area{display:none!important}
+.dp{font-family:'Helvetica Neue',Arial,sans-serif;color:#111}
+.dp-hero{font-family:'Helvetica Neue',Arial,sans-serif;position:relative;background:radial-gradient(120% 140% at 50% 0%,#1c1c1c 0%,#111 60%,#0a0a0a 100%);overflow:hidden;color:#fff;padding:84px 0 24px;text-align:center;min-height:440px;display:flex;align-items:center}
+.dp-hero::before{content:"Artspace";position:absolute;left:50%;top:50%;transform:translate(-50%,-58%);white-space:nowrap;pointer-events:none;user-select:none;font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:clamp(40px,11vw,150px);letter-spacing:.03em;line-height:1;max-width:96vw;background:linear-gradient(135deg,#f1d9a8,#c7a16d 50%,#a97d3e);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;opacity:.2}
+.dp-hero::after{content:"by Archi's Studio";position:absolute;left:50%;top:50%;margin-top:clamp(20px,5.2vw,75px);transform:translateX(-50%);white-space:nowrap;pointer-events:none;user-select:none;font-size:clamp(8px,1.2vw,16px);font-weight:600;letter-spacing:.45em;text-transform:uppercase;color:#c7a16d;opacity:.4}
+.dp-hero .container{position:relative;z-index:1;width:100%;max-width:980px;margin:0 auto;padding:0 5vw}
+.dp-hero h1{margin:0 0 clamp(14px,3vh,24px);font-family:'Playfair Display',Georgia,serif;font-weight:400;font-size:clamp(24px,3.4vw,40px);line-height:1.15}
+.dp-hero h1 em{font-style:italic;font-weight:600;background:linear-gradient(135deg,#f1d9a8,#c7a16d 50%,#a97d3e);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.dp-steps{list-style:none;margin:0 auto;padding:0;display:grid;grid-template-columns:repeat(3,1fr);max-width:680px;position:relative}
+.dp-steps::before{content:"";position:absolute;top:22px;left:16.66%;right:16.66%;height:1px;background:rgba(199,161,109,.55)}
+.dp-steps li{position:relative;display:flex;flex-direction:column;align-items:center;gap:10px}
+.dp-ico{width:44px;height:44px;border-radius:50%;border:1px solid #c7a16d;background:#111;color:#c7a16d;display:grid;place-items:center;position:relative;z-index:1}
+.dp-ico svg{width:18px;height:18px}
+.dp-step-t{font-size:clamp(12.5px,1.3vw,15px);line-height:1.55;color:#f1ece2}
+.dp-search{display:flex;align-items:stretch;gap:12px;max-width:560px;margin:clamp(16px,3.5vh,26px) auto 0}
+.dp-sbox{flex:1;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #d8d2c6;border-radius:8px;padding:0 16px;margin:0;cursor:text}
+.dp-sbox svg{width:20px;height:20px;flex:none;color:#8a5a2b}
+.dp-sbox input{flex:1;min-width:0;border:0;outline:0;background:transparent;font:inherit;font-size:15px;color:#111;padding:13px 0}
+.dp-sbox input::placeholder{color:#9a9a9a}
+.dp-sbox:focus-within{border-color:#c7a16d;box-shadow:0 0 0 3px rgba(199,161,109,.3)}
+.dp-go{flex:none;padding:0 24px;background:#c7a16d;border:1px solid #c7a16d;color:#111;font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;border-radius:8px;cursor:pointer;transition:.3s}
+.dp-go:hover{background:#fff;border-color:#fff}
+.dp-count-line{margin-top:clamp(10px,2vh,16px);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#c7a16d;font-weight:700}
+.dp-nores{display:none;text-align:center;padding:40px 20px;color:#555}
+.dp-list{padding:56px 0 80px;background:linear-gradient(180deg,#fff 0%,#f6efe2 100%)}
+.dp-grid{display:flex;flex-direction:column;gap:0;background:#fff;border:1px solid #eadfcb;border-radius:14px;box-shadow:0 14px 40px rgba(138,90,43,.1);overflow:hidden}
+.dp-card{display:grid;grid-template-columns:280px minmax(0,1fr) 230px;gap:28px;align-items:start;padding:20px 22px;background:#fff}
+.dp-card+.dp-card{border-top:1px solid #eadfcb}
+.dp-cover{display:grid;place-items:center;aspect-ratio:16/11;background:#f6efe2;overflow:hidden;border-radius:6px;text-decoration:none}
+.dp-cover img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.dp-card:hover .dp-cover img{transform:scale(1.04)}
+.dp-mono{width:84px;height:84px;border-radius:50%;background:#111;color:#c7a16d;display:grid;place-items:center;font-family:'Playfair Display',Georgia,serif;font-size:34px;font-weight:600}
+.dp-mid{min-width:0}
+.dp-stars{--p:0%;display:inline-block;font-size:18px;letter-spacing:2px;line-height:1;background:linear-gradient(90deg,#fbbf24 var(--p),#ddd var(--p));-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;vertical-align:middle}
+.dp-stars::before{content:"\2605\2605\2605\2605\2605"}
+.dp-rate{display:flex;align-items:center;gap:8px;margin:4px 0 0;font-size:16px;color:#444}
+.dp-rate b{color:#d98e04;font-weight:500;font-size:17px}
+.dp-title{display:flex;align-items:center;gap:12px}
+.dp-avatar{flex:none;width:52px;height:52px;border-radius:50%;object-fit:cover;border:1px solid #eadfcb;background:#111}
+.dp-avatar.mono{display:grid;place-items:center;color:#c7a16d;font:600 22px 'Playfair Display',Georgia,serif}
+.dp-title h3{margin:0;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:500;font-size:24px;line-height:1.2}
+.dp-title h3 a{color:#111;text-decoration:none}
+.dp-title h3 a:hover{color:#8a5a2b}
+.dp-co{margin:2px 0 0;color:#8a5a2b;font-size:14px;font-weight:600}
+.dp-type{margin:10px 0 0;color:#666;font-size:15.5px}
+.dp-desc{margin:16px 0 0;color:#555;font-size:15.5px;line-height:1.65}
+.dp-more{display:flex;justify-content:flex-end;margin-top:10px}
+.dp-more a{color:#111;font-weight:700;font-size:15px;text-decoration:none}
+.dp-more a:hover{color:#8a5a2b}
+.dp-side{display:flex;flex-direction:column;gap:18px}
+.dp-msg{display:flex;align-items:center;justify-content:center;gap:10px;padding:13px 16px;background:#fff;border:1.5px solid #222;border-radius:8px;color:#111!important;text-decoration:none;font-size:17px;font-weight:600;transition:.25s}
+.dp-msg:hover{background:#111;color:#fff!important}
+.dp-msg svg{width:20px;height:20px;flex:none}
+.dp-facts{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none;color:#444;font-size:15px;line-height:1.5}
+.dp-facts li{display:flex;gap:10px;align-items:flex-start}
+.dp-facts svg{width:18px;height:18px;flex:none;color:#111;margin-top:2px}
+.dp-btn{display:inline-block;padding:15px 30px;background:#8a5a2b;border:1px solid #8a5a2b;color:#fff!important;text-decoration:none;font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;border-radius:8px;transition:.3s}
+.dp-btn:hover{background:#111;border-color:#111}
+.dp-empty{max-width:560px;margin:0 auto;text-align:center;padding:48px 28px;background:#fff;border:1px solid #eadfcb;border-top:3px solid #c7a16d;border-radius:14px;box-shadow:0 14px 40px rgba(138,90,43,.1)}
+.dp-empty h2{margin:0 0 8px;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:26px}
+.dp-empty p{margin:0 0 22px;color:#555;line-height:1.65}
+.dp-join{margin-top:44px;text-align:center;color:#555;font-size:15px}
+.dp-join a{color:#8a5a2b;font-weight:700}
+@media(max-width:980px){.dp-card{grid-template-columns:240px minmax(0,1fr);}.dp-side{grid-column:1/-1;flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:space-between}.dp-msg{min-width:200px}}
+@media(max-width:620px){.dp-hero{padding:84px 0 28px;min-height:0}.dp-search{flex-direction:column}.dp-go{padding:15px}.dp-step-t br{display:none}.dp-ico{width:46px;height:46px}.dp-steps::before{top:23px}.dp-list{padding:36px 0 56px}.dp-card{grid-template-columns:1fr;gap:16px;padding:16px}.dp-side{flex-direction:column;align-items:stretch}.dp-title h3{font-size:21px}}
+</style>
+<div class="dp">
+
+  <section class="dp-list">
+    <div class="container">
+      {% if designers %}
+      <div class="dp-grid">
+        {% for d in designers %}
+        <article class="dp-card" data-city="{{ (d.city or '')|lower }}">
+          <a class="dp-cover" href="{{ url_for('designer_profile', designer_id=d.id) }}" aria-label="View profile of {{ d.name }}">
+            {% if d.cover %}<img src="{{ d.cover }}" alt="Portfolio of {{ d.name }}" loading="lazy">
+            {% elif d.photo %}<img src="{{ d.photo }}" alt="{{ d.name }}" loading="lazy">
+            {% else %}<div class="dp-mono">{{ d.name[:1]|upper }}</div>{% endif %}
+          </a>
+          <div class="dp-mid">
+            <div class="dp-title">
+              {% if d.photo %}<img class="dp-avatar" src="{{ d.photo }}" alt="{{ d.name }}" loading="lazy">
+              {% else %}<div class="dp-avatar mono">{{ d.name[:1]|upper }}</div>{% endif %}
+              <div>
+                <h3><a href="{{ url_for('designer_profile', designer_id=d.id) }}">{{ d.company or d.name }}</a></h3>
+                {% if d.company %}<p class="dp-co">{{ d.name }}</p>{% endif %}
+                {% if d.rating and d.rating.count %}<div class="dp-rate"><b>{{ '%.1f'|format(d.rating.avg) }}</b> <span class="dp-stars" style="--p:{{ d.rating.pct }}%" aria-hidden="true"></span> <span>{{ d.rating.count }} Review{{ '' if d.rating.count == 1 else 's' }}</span></div>{% endif %}
+              </div>
+            </div>
+            <p class="dp-type">{{ d.type }}{% if d.specialisations %} &middot; {{ d.specialisations[:3]|join(', ') }}{% endif %}</p>
+            {% set blurb = d.details or d.projects_summary %}
+            <p class="dp-desc">{% if blurb %}{{ blurb|truncate(170, True, '...') }}{% else %}{{ d.name }} is a {{ d.type|lower }} on Artspace with {{ d.experience|lower }} of experience. Open the profile to see the portfolio.{% endif %}</p>
+            <div class="dp-more"><a href="{{ url_for('designer_profile', designer_id=d.id) }}">Read More &rsaquo;</a></div>
+          </div>
+          <div class="dp-side">
+            <a class="dp-msg" href="{{ url_for('designer_hire', designer_id=d.id) }}"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 5.5A1.5 1.5 0 013.5 4h17A1.5 1.5 0 0122 5.5v.4l-10 6.3L2 5.9v-.4zM2 8.3l9.46 5.97a1 1 0 001.08 0L22 8.3v10.2a1.5 1.5 0 01-1.5 1.5h-17A1.5 1.5 0 012 18.5V8.3z"/></svg>Send Message</a>
+            <ul class="dp-facts">
+              {% if d.city %}<li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12zm0-9.5A2.5 2.5 0 1112 7.5a2.5 2.5 0 010 5z"/></svg><span>{{ d.city }}</span></li>{% endif %}
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 012-2h2a2 2 0 012 2v2"/></svg><span>{{ d.experience_text }}</span></li>
+            </ul>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+      <div class="dp-nores" id="dpNoRes">No designers found in this city. Try another city name.</div>
+      <p class="dp-join">Are you a designer? <a href="{{ url_for('join_designer') }}">Join as a Designer</a></p>
+      {% else %}
+      <div class="dp-empty">
+        <h2>Designers are joining soon</h2>
+        <p>Our designer network is being built. Approved designers will appear here as soon as they go live.</p>
+        <a class="dp-btn" href="{{ url_for('join_designer') }}">Join as a Designer</a>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+</div>
+<script>
+(function(){
+  var inp=document.getElementById('dpCity'),cards=document.querySelectorAll('.dp-card'),
+      cnt=document.getElementById('dpCount'),nores=document.getElementById('dpNoRes'),
+      list=document.querySelector('.dp-list');
+  if(!inp)return;
+  function run(scroll){
+    var q=inp.value.trim().toLowerCase(),n=0;
+    cards.forEach(function(c){var ok=!q||(c.dataset.city||'').indexOf(q)>-1;c.style.display=ok?'':'none';if(ok)n++;});
+    if(cnt)cnt.textContent=n+' designer'+(n===1?'':'s')+' '+(q?'found':'available');
+    if(nores)nores.style.display=(cards.length&&!n)?'block':'none';
+    if(scroll&&list)list.scrollIntoView({behavior:'smooth'});
+  }
+  inp.addEventListener('input',function(){run(false);});
+  document.getElementById('dpSearch').addEventListener('submit',function(){run(true);});
+})();
+</script>
+<script>
+/* hide the "Artspace by Archi's Studio" brand bar from base.html on this page (navbar logo is kept) */
+(function(){
+  function norm(t){return (t||'').replace(/[\s\u2019']/g,'').toLowerCase();}
+  var KEY=norm("Artspace by Archi's Studio");
+  function hideBar(){
+    document.querySelectorAll('body *').forEach(function(el){
+      if(el.closest('.hx-wrap,.dp-hero,.dp,script,style'))return;
+      if(norm(el.textContent)!==KEY)return;
+      var top=el;
+      while(top.parentElement&&top.parentElement!==document.body&&norm(top.parentElement.textContent)===KEY)top=top.parentElement;
+      top.style.display='none';
+    });
+  }
+  hideBar();window.addEventListener('load',hideBar);
+})();
+</script>
+<script>
+/* size the hero to about 80% of the first screen (below any fixed bar from base.html) */
+(function(){
+  var hero=document.querySelector('.dp-hero');
+  if(!hero)return;
+  function fit(){
+    if(window.innerWidth<=620){hero.style.minHeight='';return;}
+    var top=hero.getBoundingClientRect().top+window.scrollY;
+    hero.style.minHeight=Math.max(440,Math.round((window.innerHeight-top)*0.82))+'px';
+  }
+  fit();window.addEventListener('load',fit);window.addEventListener('resize',fit);
+})();
+</script>
+{% endblock %}
