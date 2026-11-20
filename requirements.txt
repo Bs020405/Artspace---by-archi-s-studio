@@ -5,3 +5,4 @@ authlib
 flask-login
 requests
 reportlab
+gunicorn
