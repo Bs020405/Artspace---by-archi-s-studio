@@ -1,0 +1,1219 @@
+{
+  "_note": "Edit rates freely. 'rate' = INR per unit at the Premium level before the tier multiplier. src='rate_card' means taken from the old RE_CATALOG; src='placeholder' MUST be replaced with your real rate.",
+  "currency": "INR",
+  "gst_percent": 0,
+  "gst_note": "Set to your applicable GST % (e.g. after confirming with your CA). 0 = GST line is hidden.",
+  "tier_multipliers": {
+    "economy": 0.7,
+    "standard": 0.85,
+    "premium": 1.0,
+    "luxury": 1.35
+  },
+  "opening_deduction": 0.85,
+  "labour_install_pct": {
+    "furniture": {
+      "labour": 0.1,
+      "install": 0.05
+    },
+    "material": {
+      "labour": 0.25,
+      "install": 0.05
+    },
+    "additional": {
+      "labour": 0.0,
+      "install": 0.0
+    }
+  },
+  "categories": {
+    "bedroom": [
+      {
+        "key": "bed",
+        "label": "Bed with headboard & storage",
+        "kind": "furniture",
+        "unit": "bed",
+        "rate": 55000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "rate_card",
+        "mats": {
+          "Queen - engineered wood": 1.0,
+          "King - engineered wood": 1.36,
+          "Single - engineered wood": 0.64,
+          "King - solid wood": 2.0
+        }
+      },
+      {
+        "key": "wardrobe",
+        "label": "Full-height wardrobe",
+        "kind": "furniture",
+        "unit": "sq.ft",
+        "rate": 1800,
+        "qty": [
+          "wardrobe_front",
+          1.0
+        ],
+        "on": true,
+        "src": "rate_card",
+        "mats": {
+          "BWP plywood + laminate": 1.0,
+          "BWP plywood + acrylic": 1.35,
+          "Solid wood": 1.9,
+          "Marine ply + veneer": 1.25
+        }
+      },
+      {
+        "key": "bedside",
+        "label": "Side tables (pair)",
+        "kind": "furniture",
+        "unit": "pair",
+        "rate": 14000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "rate_card"
+      },
+      {
+        "key": "headboard",
+        "label": "Headboard wall panelling",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 380,
+        "qty": [
+          "fixed",
+          40
+        ],
+        "on": true,
+        "src": "rate_card"
+      },
+      {
+        "key": "false_ceiling",
+        "label": "False ceiling",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 130,
+        "qty": [
+          "floor",
+          1.0
+        ],
+        "on": true,
+        "src": "rate_card"
+      },
+      {
+        "key": "lighting",
+        "label": "Cove LEDs & spotlights",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 85,
+        "qty": [
+          "floor",
+          1.0
+        ],
+        "on": true,
+        "src": "rate_card"
+      },
+      {
+        "key": "paint",
+        "label": "Wall paint (walls + ceiling)",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 32,
+        "qty": [
+          "walls_ceiling",
+          1.0
+        ],
+        "on": true,
+        "src": "rate_card"
+      },
+      {
+        "key": "wallpaper",
+        "label": "Wallpaper (feature wall)",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 90,
+        "qty": [
+          "accent",
+          1.0
+        ],
+        "on": false,
+        "src": "placeholder"
+      },
+      {
+        "key": "curtains",
+        "label": "Curtains / blinds with sheers",
+        "kind": "material",
+        "unit": "window",
+        "rate": 9000,
+        "qty": [
+          "fixed",
+          2
+        ],
+        "on": true,
+        "src": "rate_card"
+      },
+      {
+        "key": "flooring",
+        "label": "Flooring (only if selected)",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 140,
+        "qty": [
+          "floor",
+          1.0
+        ],
+        "on": false,
+        "src": "placeholder",
+        "mats": {
+          "Vitrified tile": 1.0,
+          "Wooden laminate": 1.4,
+          "Engineered wood": 2.2,
+          "Italian marble": 3.2
+        }
+      }
+    ],
+    "living_room": [
+      {
+        "key": "sofa",
+        "label": "Sofa set",
+        "kind": "furniture",
+        "unit": "set",
+        "rate": 45000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "rate_card",
+        "mats": {
+          "3-seater": 1.0,
+          "L-shaped sectional": 1.55,
+          "2-seater + 2 chairs": 0.95
+        }
+      },
+      {
+        "key": "tv_unit",
+        "label": "TV unit with storage & display",
+        "kind": "furniture",
+        "unit": "unit",
+        "rate": 75000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "rate_card",
+        "mats": {
+          "BWP plywood + laminate": 1.0,
+          "BWP plywood + acrylic": 1.35,
+          "Solid wood": 1.9,
+          "Marine ply + veneer": 1.25
+        }
+      },
+      {
+        "key": "centre_table",
+        "label": "Centre table & area rug",
+        "kind": "furniture",
+        "unit": "set",
+        "rate": 30000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "rate_card"
+      },
+      {
+        "key": "wall_panel",
+        "label": "Wood-slat / fluted wall panels",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 380,
+        "qty": [
+          "accent",
+          1.0
+        ],
+        "on": true,
+        "src": "rate_card"
+      },
+      {
+        "key": "false_ceiling",
+        "label": "False ceiling",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 130,
+        "qty": [
+          "floor",
+          1.0
+        ],
+        "on": true,
+        "src": "rate_card"
+      },
+      {
+        "key": "lighting",
+        "label": "Cove LEDs & spotlights",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 85,
+        "qty": [
+          "floor",
+          1.0
+        ],
+        "on": true,
+        "src": "rate_card"
+      },
+      {
+        "key": "paint",
+        "label": "Wall paint (walls + ceiling)",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 32,
+        "qty": [
+          "walls_ceiling",
+          1.0
+        ],
+        "on": true,
+        "src": "rate_card"
+      },
+      {
+        "key": "curtains",
+        "label": "Curtains / blinds with sheers",
+        "kind": "material",
+        "unit": "window",
+        "rate": 9000,
+        "qty": [
+          "fixed",
+          3
+        ],
+        "on": true,
+        "src": "rate_card"
+      },
+      {
+        "key": "flooring",
+        "label": "Flooring (only if selected)",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 140,
+        "qty": [
+          "floor",
+          1.0
+        ],
+        "on": false,
+        "src": "placeholder",
+        "mats": {
+          "Vitrified tile": 1.0,
+          "Wooden laminate": 1.4,
+          "Engineered wood": 2.2,
+          "Italian marble": 3.2
+        }
+      }
+    ],
+    "kitchen": [
+      {
+        "key": "base_cab",
+        "label": "Base cabinets",
+        "kind": "furniture",
+        "unit": "running ft",
+        "rate": 11000,
+        "qty": [
+          "run",
+          1.0
+        ],
+        "on": true,
+        "src": "rate_card",
+        "mats": {
+          "BWP plywood + laminate": 1.0,
+          "BWP plywood + acrylic": 1.35,
+          "Solid wood": 1.9,
+          "Marine ply + veneer": 1.25
+        }
+      },
+      {
+        "key": "wall_cab",
+        "label": "Wall cabinets",
+        "kind": "furniture",
+        "unit": "running ft",
+        "rate": 8000,
+        "qty": [
+          "run",
+          0.85
+        ],
+        "on": true,
+        "src": "placeholder",
+        "mats": {
+          "BWP plywood + laminate": 1.0,
+          "BWP plywood + acrylic": 1.35,
+          "Solid wood": 1.9,
+          "Marine ply + veneer": 1.25
+        }
+      },
+      {
+        "key": "tall_unit",
+        "label": "Tall units (pantry / appliance)",
+        "kind": "furniture",
+        "unit": "running ft",
+        "rate": 14000,
+        "qty": [
+          "fixed",
+          2.5
+        ],
+        "on": true,
+        "src": "placeholder",
+        "mats": {
+          "BWP plywood + laminate": 1.0,
+          "BWP plywood + acrylic": 1.35,
+          "Solid wood": 1.9,
+          "Marine ply + veneer": 1.25
+        }
+      },
+      {
+        "key": "countertop",
+        "label": "Countertop",
+        "kind": "material",
+        "unit": "running ft",
+        "rate": 3500,
+        "qty": [
+          "run",
+          1.0
+        ],
+        "on": true,
+        "src": "rate_card",
+        "mats": {
+          "Granite": 1.0,
+          "Quartz": 1.6,
+          "Engineered marble": 1.3,
+          "Solid surface": 1.8
+        }
+      },
+      {
+        "key": "backsplash",
+        "label": "Backsplash",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 180,
+        "qty": [
+          "run",
+          2.0
+        ],
+        "on": true,
+        "src": "placeholder"
+      },
+      {
+        "key": "hardware",
+        "label": "Hardware (hinges, channels, baskets)",
+        "kind": "material",
+        "unit": "lot",
+        "rate": 25000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "placeholder"
+      },
+      {
+        "key": "sink",
+        "label": "Sink and fittings",
+        "kind": "material",
+        "unit": "set",
+        "rate": 18000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "placeholder"
+      },
+      {
+        "key": "hob_chimney",
+        "label": "Built-in hob & chimney",
+        "kind": "material",
+        "unit": "set",
+        "rate": 40000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": false,
+        "src": "rate_card"
+      },
+      {
+        "key": "k_lighting",
+        "label": "Kitchen lighting (under-cabinet + ceiling)",
+        "kind": "material",
+        "unit": "lot",
+        "rate": 12000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "placeholder"
+      }
+    ],
+    "bathroom": [
+      {
+        "key": "wall_tiles",
+        "label": "Wall tiles",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 95,
+        "qty": [
+          "tile_walls",
+          1.0
+        ],
+        "on": true,
+        "src": "placeholder",
+        "mats": {
+          "Ceramic": 1.0,
+          "Vitrified": 1.3,
+          "Porcelain": 1.7,
+          "Natural stone": 2.6
+        }
+      },
+      {
+        "key": "floor_tiles",
+        "label": "Floor tiles (anti-skid)",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 90,
+        "qty": [
+          "floor",
+          1.0
+        ],
+        "on": true,
+        "src": "placeholder",
+        "mats": {
+          "Ceramic": 1.0,
+          "Vitrified": 1.3,
+          "Porcelain": 1.7,
+          "Natural stone": 2.6
+        }
+      },
+      {
+        "key": "vanity",
+        "label": "Vanity with basin",
+        "kind": "furniture",
+        "unit": "unit",
+        "rate": 22000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "placeholder"
+      },
+      {
+        "key": "mirror",
+        "label": "Mirror with LED light",
+        "kind": "material",
+        "unit": "piece",
+        "rate": 8000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "placeholder"
+      },
+      {
+        "key": "shower",
+        "label": "Shower fittings",
+        "kind": "material",
+        "unit": "set",
+        "rate": 15000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "placeholder"
+      },
+      {
+        "key": "sanitary",
+        "label": "Sanitaryware (WC, fittings)",
+        "kind": "material",
+        "unit": "set",
+        "rate": 20000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "placeholder"
+      },
+      {
+        "key": "b_lighting",
+        "label": "Bathroom lighting",
+        "kind": "material",
+        "unit": "lot",
+        "rate": 6000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "placeholder"
+      },
+      {
+        "key": "waterproofing",
+        "label": "Waterproofing",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 45,
+        "qty": [
+          "wet_area",
+          1.0
+        ],
+        "on": true,
+        "src": "placeholder"
+      }
+    ],
+    "dining_room": [
+      {
+        "key": "dining_set",
+        "label": "Dining table with chairs",
+        "kind": "furniture",
+        "unit": "set",
+        "rate": 55000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "rate_card",
+        "mats": {
+          "4-seater": 0.8,
+          "6-seater": 1.0,
+          "8-seater": 1.35
+        }
+      },
+      {
+        "key": "crockery",
+        "label": "Crockery / sideboard unit",
+        "kind": "furniture",
+        "unit": "unit",
+        "rate": 30000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "rate_card",
+        "mats": {
+          "BWP plywood + laminate": 1.0,
+          "BWP plywood + acrylic": 1.35,
+          "Solid wood": 1.9,
+          "Marine ply + veneer": 1.25
+        }
+      },
+      {
+        "key": "feature_light",
+        "label": "Pendant / chandelier over table",
+        "kind": "material",
+        "unit": "piece",
+        "rate": 22000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "rate_card"
+      },
+      {
+        "key": "false_ceiling",
+        "label": "False ceiling",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 130,
+        "qty": [
+          "floor",
+          1.0
+        ],
+        "on": true,
+        "src": "rate_card"
+      },
+      {
+        "key": "lighting",
+        "label": "Cove LEDs & spotlights",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 85,
+        "qty": [
+          "floor",
+          1.0
+        ],
+        "on": true,
+        "src": "rate_card"
+      },
+      {
+        "key": "paint",
+        "label": "Wall paint (walls + ceiling)",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 32,
+        "qty": [
+          "walls_ceiling",
+          1.0
+        ],
+        "on": true,
+        "src": "rate_card"
+      },
+      {
+        "key": "curtains",
+        "label": "Curtains / blinds with sheers",
+        "kind": "material",
+        "unit": "window",
+        "rate": 9000,
+        "qty": [
+          "fixed",
+          2
+        ],
+        "on": true,
+        "src": "rate_card"
+      },
+      {
+        "key": "flooring",
+        "label": "Flooring (only if selected)",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 140,
+        "qty": [
+          "floor",
+          1.0
+        ],
+        "on": false,
+        "src": "placeholder",
+        "mats": {
+          "Vitrified tile": 1.0,
+          "Wooden laminate": 1.4,
+          "Engineered wood": 2.2,
+          "Italian marble": 3.2
+        }
+      }
+    ],
+    "balcony": [
+      {
+        "key": "seating",
+        "label": "Outdoor seating set",
+        "kind": "furniture",
+        "unit": "set",
+        "rate": 25000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "placeholder"
+      },
+      {
+        "key": "planters",
+        "label": "Planters & vertical garden",
+        "kind": "material",
+        "unit": "lot",
+        "rate": 12000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "placeholder"
+      },
+      {
+        "key": "deck",
+        "label": "Decking / flooring (only if selected)",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 150,
+        "qty": [
+          "floor",
+          1.0
+        ],
+        "on": false,
+        "src": "placeholder"
+      },
+      {
+        "key": "b_paint",
+        "label": "Weather-proof wall paint",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 38,
+        "qty": [
+          "walls",
+          1.0
+        ],
+        "on": true,
+        "src": "placeholder"
+      },
+      {
+        "key": "b_lights",
+        "label": "Outdoor lighting",
+        "kind": "material",
+        "unit": "lot",
+        "rate": 7000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "placeholder"
+      }
+    ],
+    "hall": [
+      {
+        "key": "sofa",
+        "label": "Sofa set",
+        "kind": "furniture",
+        "unit": "set",
+        "rate": 45000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "rate_card",
+        "mats": {
+          "3-seater": 1.0,
+          "L-shaped sectional": 1.55,
+          "2-seater + 2 chairs": 0.95
+        }
+      },
+      {
+        "key": "tv_unit",
+        "label": "TV unit with storage & display",
+        "kind": "furniture",
+        "unit": "unit",
+        "rate": 75000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "rate_card",
+        "mats": {
+          "BWP plywood + laminate": 1.0,
+          "BWP plywood + acrylic": 1.35,
+          "Solid wood": 1.9,
+          "Marine ply + veneer": 1.25
+        }
+      },
+      {
+        "key": "centre_table",
+        "label": "Centre table & area rug",
+        "kind": "furniture",
+        "unit": "set",
+        "rate": 30000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "rate_card"
+      },
+      {
+        "key": "wall_panel",
+        "label": "Wood-slat / fluted wall panels",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 380,
+        "qty": [
+          "accent",
+          1.0
+        ],
+        "on": true,
+        "src": "rate_card"
+      },
+      {
+        "key": "false_ceiling",
+        "label": "False ceiling",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 130,
+        "qty": [
+          "floor",
+          1.0
+        ],
+        "on": true,
+        "src": "rate_card"
+      },
+      {
+        "key": "lighting",
+        "label": "Cove LEDs & spotlights",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 85,
+        "qty": [
+          "floor",
+          1.0
+        ],
+        "on": true,
+        "src": "rate_card"
+      },
+      {
+        "key": "paint",
+        "label": "Wall paint (walls + ceiling)",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 32,
+        "qty": [
+          "walls_ceiling",
+          1.0
+        ],
+        "on": true,
+        "src": "rate_card"
+      },
+      {
+        "key": "curtains",
+        "label": "Curtains / blinds with sheers",
+        "kind": "material",
+        "unit": "window",
+        "rate": 9000,
+        "qty": [
+          "fixed",
+          3
+        ],
+        "on": true,
+        "src": "rate_card"
+      },
+      {
+        "key": "flooring",
+        "label": "Flooring (only if selected)",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 140,
+        "qty": [
+          "floor",
+          1.0
+        ],
+        "on": false,
+        "src": "placeholder",
+        "mats": {
+          "Vitrified tile": 1.0,
+          "Wooden laminate": 1.4,
+          "Engineered wood": 2.2,
+          "Italian marble": 3.2
+        }
+      }
+    ],
+    "wardrobe": [
+      {
+        "key": "body",
+        "label": "Wardrobe body (carcass + shutters)",
+        "kind": "furniture",
+        "unit": "sq.ft",
+        "rate": 1800,
+        "qty": [
+          "front",
+          1.0
+        ],
+        "on": true,
+        "src": "rate_card",
+        "mats": {
+          "BWP plywood + laminate": 1.0,
+          "BWP plywood + acrylic": 1.35,
+          "Solid wood": 1.9,
+          "Marine ply + veneer": 1.25
+        }
+      },
+      {
+        "key": "hardware",
+        "label": "Hardware (hinges, channels, handles)",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 150,
+        "qty": [
+          "front",
+          1.0
+        ],
+        "on": true,
+        "src": "placeholder"
+      },
+      {
+        "key": "finish",
+        "label": "Finish (laminate / polish / paint)",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 120,
+        "qty": [
+          "front",
+          1.0
+        ],
+        "on": true,
+        "src": "placeholder",
+        "mats": {
+          "Matte laminate": 1.0,
+          "Acrylic gloss": 1.5,
+          "Veneer + PU polish": 1.8,
+          "Duco paint": 1.4
+        }
+      },
+      {
+        "key": "loft",
+        "label": "Loft cabinets",
+        "kind": "furniture",
+        "unit": "sq.ft",
+        "rate": 1200,
+        "qty": [
+          "front",
+          0.25
+        ],
+        "on": false,
+        "src": "placeholder"
+      },
+      {
+        "key": "interior",
+        "label": "Interior accessories (pull-outs, drawers)",
+        "kind": "material",
+        "unit": "set",
+        "rate": 12000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": false,
+        "src": "placeholder"
+      }
+    ],
+    "bed": [
+      {
+        "key": "body",
+        "label": "Bed with headboard",
+        "kind": "furniture",
+        "unit": "bed",
+        "rate": 55000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "rate_card",
+        "mats": {
+          "Queen - engineered wood": 1.0,
+          "King - engineered wood": 1.36,
+          "Single - engineered wood": 0.64,
+          "King - solid wood": 2.0
+        }
+      },
+      {
+        "key": "storage",
+        "label": "Hydraulic storage mechanism",
+        "kind": "material",
+        "unit": "set",
+        "rate": 9000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": false,
+        "src": "placeholder"
+      },
+      {
+        "key": "finish",
+        "label": "Finish & upholstery panel",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 120,
+        "qty": [
+          "fixed",
+          30
+        ],
+        "on": true,
+        "src": "placeholder",
+        "mats": {
+          "Matte laminate": 1.0,
+          "Acrylic gloss": 1.5,
+          "Veneer + PU polish": 1.8,
+          "Duco paint": 1.4
+        }
+      },
+      {
+        "key": "hardware",
+        "label": "Hardware",
+        "kind": "material",
+        "unit": "lot",
+        "rate": 4000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "placeholder"
+      }
+    ],
+    "sofa": [
+      {
+        "key": "body",
+        "label": "Sofa (frame + cushioning)",
+        "kind": "furniture",
+        "unit": "set",
+        "rate": 45000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "rate_card",
+        "mats": {
+          "3-seater": 1.0,
+          "L-shaped sectional": 1.55,
+          "2-seater": 0.7
+        }
+      },
+      {
+        "key": "upholstery",
+        "label": "Upholstery fabric upgrade",
+        "kind": "material",
+        "unit": "set",
+        "rate": 8000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": true,
+        "src": "placeholder",
+        "mats": {
+          "Standard fabric": 1.0,
+          "Premium fabric": 1.3,
+          "Velvet": 1.45,
+          "Leatherette": 1.6,
+          "Genuine leather": 2.4
+        }
+      },
+      {
+        "key": "cushions",
+        "label": "Scatter cushions & finish",
+        "kind": "material",
+        "unit": "lot",
+        "rate": 5000,
+        "qty": [
+          "fixed",
+          1
+        ],
+        "on": false,
+        "src": "placeholder"
+      }
+    ],
+    "tv_unit": [
+      {
+        "key": "body",
+        "label": "TV unit body",
+        "kind": "furniture",
+        "unit": "running ft",
+        "rate": 12500,
+        "qty": [
+          "width",
+          1.0
+        ],
+        "on": true,
+        "src": "placeholder",
+        "mats": {
+          "BWP plywood + laminate": 1.0,
+          "BWP plywood + acrylic": 1.35,
+          "Solid wood": 1.9,
+          "Marine ply + veneer": 1.25
+        }
+      },
+      {
+        "key": "hardware",
+        "label": "Hardware (hinges, channels, handles)",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 150,
+        "qty": [
+          "front",
+          1.0
+        ],
+        "on": true,
+        "src": "placeholder"
+      },
+      {
+        "key": "finish",
+        "label": "Finish (laminate / polish / paint)",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 120,
+        "qty": [
+          "front",
+          1.0
+        ],
+        "on": true,
+        "src": "placeholder",
+        "mats": {
+          "Matte laminate": 1.0,
+          "Acrylic gloss": 1.5,
+          "Veneer + PU polish": 1.8,
+          "Duco paint": 1.4
+        }
+      },
+      {
+        "key": "backlight",
+        "label": "LED backlight & back panel",
+        "kind": "material",
+        "unit": "running ft",
+        "rate": 1800,
+        "qty": [
+          "width",
+          1.0
+        ],
+        "on": false,
+        "src": "placeholder"
+      }
+    ],
+    "other_furniture": [
+      {
+        "key": "body",
+        "label": "Furniture body (material)",
+        "kind": "furniture",
+        "unit": "sq.ft",
+        "rate": 1500,
+        "qty": [
+          "front",
+          1.0
+        ],
+        "on": true,
+        "src": "placeholder",
+        "mats": {
+          "BWP plywood + laminate": 1.0,
+          "BWP plywood + acrylic": 1.35,
+          "Solid wood": 1.9,
+          "Marine ply + veneer": 1.25
+        }
+      },
+      {
+        "key": "hardware",
+        "label": "Hardware (hinges, channels, handles)",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 150,
+        "qty": [
+          "front",
+          1.0
+        ],
+        "on": true,
+        "src": "placeholder"
+      },
+      {
+        "key": "finish",
+        "label": "Finish (laminate / polish / paint)",
+        "kind": "material",
+        "unit": "sq.ft",
+        "rate": 120,
+        "qty": [
+          "front",
+          1.0
+        ],
+        "on": true,
+        "src": "placeholder",
+        "mats": {
+          "Matte laminate": 1.0,
+          "Acrylic gloss": 1.5,
+          "Veneer + PU polish": 1.8,
+          "Duco paint": 1.4
+        }
+      }
+    ]
+  }
+}
