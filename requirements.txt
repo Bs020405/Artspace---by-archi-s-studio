@@ -1,0 +1,7 @@
+flask
+openpyxl
+python-dotenv
+authlib
+flask-login
+requests
+reportlab
