@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+{% block title %}Designer Dashboard — Artspace by Archi's Studio{% endblock %}
+
+{% block content %}
+<style>
+/* ===== Designer dashboard (scoped: dd-) ===== */
+.dd{font-family:'Helvetica Neue',Arial,sans-serif;color:#111}
+.dd *{box-sizing:border-box}
+.dd [id]{scroll-margin-top:20px}
+.dd-hero{position:relative;overflow:hidden;background:#111;color:#fff;padding:52px 0 56px;margin-top:26px}
+.dd-hero::before{content:"";position:absolute;right:-140px;top:-140px;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(199,161,109,.3),transparent 70%);pointer-events:none}
+.dd-hero .container{position:relative}
+.dd-kick{font-size:12px;letter-spacing:.3em;font-weight:700;color:#c7a16d}
+.dd-hero h1{margin:12px 0 8px;font-family:'Playfair Display',Georgia,serif;font-weight:400;font-size:clamp(30px,5vw,52px);line-height:1.08}
+.dd-hero h1 em{font-style:italic;font-weight:600;color:#c7a16d}
+.dd-hero p{margin:0;color:#cfcfcf;font-size:16px}
+.dd-chips{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 0;padding:0;list-style:none}
+.dd-chips li{padding:7px 14px;border:1px solid rgba(199,161,109,.5);border-radius:99px;background:rgba(199,161,109,.08);color:#f1d9a8;font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.dd-main{padding:44px 0 80px;background:linear-gradient(180deg,#fff 0%,#f6efe2 100%)}
+.dd-box{background:#fff;border:1px solid #eadfcb;border-radius:14px;padding:28px 28px 26px;box-shadow:0 14px 40px rgba(138,90,43,.1);margin-bottom:26px}
+.dd-box h2{margin:0 0 6px;font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:25px}
+.dd-sub{margin:0 0 20px;color:#666;font-size:14.5px;line-height:1.6}
+.dd-status{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px}
+.dd-note{flex:1;min-width:240px;margin:0;font-size:15px;line-height:1.65;color:#444}
+.dd-pill{display:inline-block;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:#fff3d6;color:#8a6100}
+.dd-pill.ok{background:#e8f4ea;color:#245a2e}.dd-pill.bad{background:#fdeaea;color:#8a2323}
+.dd-btns{display:flex;flex-wrap:wrap;gap:10px}
+.dd-btn{display:inline-block;padding:13px 24px;border:1px solid #8a5a2b;border-radius:8px;background:#8a5a2b;color:#fff!important;font:700 12.5px/1 'Helvetica Neue',Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:.3s}
+.dd-btn:hover{background:#111;border-color:#111}
+.dd-btn.ghost{background:transparent;color:#8a5a2b!important}.dd-btn.ghost:hover{background:#8a5a2b;color:#fff!important}
+.dd-btn.sm{padding:8px 12px;font-size:11px;letter-spacing:.08em}
+.dd-btn.danger{background:#fff;border-color:#a33;color:#a33!important}.dd-btn.danger:hover{background:#a33;color:#fff!important}
+.dd-errors{margin-bottom:22px;padding:16px 20px;border:1px solid #f0b8b3;border-left:4px solid #b3261e;border-radius:8px;background:#fdecea;color:#7a1c16;font-size:14px}
+.dd-errors ul{margin:8px 0 0;padding-left:20px}
+.dd-cols{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}
+.dd-full{grid-column:1/-1}
+.dd-f{margin-bottom:18px}.dd-cols .dd-f{margin-bottom:0}
+.dd-f>label{display:block;margin-bottom:7px;font-size:13.5px;font-weight:600;color:#222}
+.dd-f label small{font-weight:400;color:#777}
+.dd-f em{font-style:normal;color:#b3261e}
+.dd-f input[type=text],.dd-f input[type=tel],.dd-f input[type=email],.dd-f select,.dd-f textarea{width:100%;padding:13px 14px;border:1px solid #ddd3bf;border-radius:8px;background:#fffdf9;color:#111;font:400 15px/1.4 'DM Sans','Helvetica Neue',Arial,sans-serif}
+.dd-f textarea{resize:vertical;min-height:70px}
+.dd-f input:focus,.dd-f select:focus,.dd-f textarea:focus{outline:none;border-color:#8a5a2b;box-shadow:0 0 0 3px rgba(199,161,109,.3);background:#fff}
+.dd-f input[disabled]{background:#f0f0ee;color:#999}
+.dd-hint{margin-top:5px;font-size:12.5px;color:#888}
+.dd-tags{display:flex;flex-wrap:wrap;gap:9px}
+.dd-chip{position:relative;cursor:pointer}
+.dd-chip input{position:absolute;opacity:0;width:1px;height:1px}
+.dd-chip span{display:inline-block;padding:8px 15px;border:1px solid #ddd3bf;border-radius:99px;background:#fffdf9;font-size:13.5px;color:#333;transition:.2s;user-select:none}
+.dd-chip:hover span{border-color:#c7a16d}
+.dd-chip input:checked+span{background:#8a5a2b;border-color:#8a5a2b;color:#fff}
+.dd-chip input:focus-visible+span{outline:2px solid #8a5a2b;outline-offset:2px}
+.dd-upload{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:16px;margin-bottom:20px;border:2px dashed #c7a16d;border-radius:12px;background:#fffaf1}
+.dd-upload input[type=file]{flex:1;min-width:200px;font-size:14px}
+.dd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:16px}
+.dd-tile{position:relative;border:1px solid #eadfcb;border-radius:12px;overflow:hidden;background:#fff}
+.dd-tile img,.dd-tile .pdf{display:block;width:100%;aspect-ratio:1;object-fit:cover;background:#f6efe2}
+.dd-tile .pdf{display:grid;place-items:center;font-weight:700;letter-spacing:.12em;color:#8a5a2b;font-size:22px}
+.dd-tile .acts{display:flex;gap:6px;flex-wrap:wrap;padding:10px}
+.dd-tile .acts form{margin:0}
+.dd-tile .cap{padding:8px 10px 0;font-size:11.5px;color:#777;word-break:break-all}
+.dd-cover{position:absolute;top:8px;left:8px;padding:3px 9px;border-radius:4px;background:#c7a16d;color:#111;font-size:10.5px;font-weight:700;letter-spacing:.12em}
+.dd-empty{padding:26px;text-align:center;color:#888;font-size:14.5px;border:1px dashed #e3d2b3;border-radius:10px}
+.dd-save{margin-top:8px}
+.dd-enq{padding:18px 20px;border:1px solid #eadfcb;border-radius:12px;background:#fffdf9;margin-bottom:14px}
+.dd-enq-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;margin-bottom:8px}
+.dd-enq-top b{font-size:16px}.dd-enq-top span{color:#888;font-size:12.5px}
+.dd-enq dl{display:grid;grid-template-columns:130px 1fr;gap:5px 14px;margin:0;font-size:14px;line-height:1.55}
+.dd-enq dt{color:#8a5a2b;font-weight:600}.dd-enq dd{margin:0;color:#333;word-break:break-word}
+.dd-enq dd.txt{white-space:pre-line}
+@media(max-width:560px){.dd-enq dl{grid-template-columns:1fr}.dd-enq dt{margin-top:6px}}
+@media(max-width:760px){.dd-cols{grid-template-columns:1fr}.dd-box{padding:22px 18px}.dd-hero{padding:38px 0 42px}.dd-main{padding:30px 0 56px}}
+@media(max-width:480px){.dd-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+
+<div class="dd">
+  <section class="dd-hero">
+    <div class="container">
+      <div class="dd-kick">DESIGNER DASHBOARD</div>
+      <h1>Welcome, <em>{{ (row['Full Name']|string).split(' ')[0] }}.</em></h1>
+      <p>Update your profile details and portfolio. This is what clients see on your public page.</p>
+      <ul class="dd-chips">
+        <li>{{ row['Designer ID'] }}</li>
+        <li>Payment: {{ row['Payment Status'] }}</li>
+        <li>Profile: {{ 'Hidden' if approval == 'Rejected' else 'Live' }}</li>
+        <li>Enquiries: {{ enquiries|length }}</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="dd-main">
+    <div class="container">
+
+      <!-- status -->
+      <div class="dd-box">
+        <div class="dd-status">
+          <p class="dd-note">
+            {% if public %}<span class="dd-pill ok">Live on website</span><br>Your profile is live and visible to everyone. Changes you save below go live immediately.
+            {% elif approval == 'Rejected' %}<span class="dd-pill bad">Not approved</span><br>Your profile was not approved, so it is not shown on the website. Please contact our team if you&rsquo;d like to know more.
+            {% else %}<span class="dd-pill ok">Live on website</span><br>Your registration is paid and your profile is live on the Find Designers page.{% endif %}
+          </p>
+          <div class="dd-btns">
+            {% if public or listed %}<a class="dd-btn" href="{{ url_for('designer_profile', designer_id=row['Designer ID']) }}" target="_blank" rel="noopener">View public profile</a>{% endif %}
+            <a class="dd-btn ghost" href="{{ url_for('designer_preview') }}" target="_blank" rel="noopener">Preview profile</a>
+            <a class="dd-btn ghost" href="{{ url_for('designer_logout') }}">Sign out</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- customer enquiries -->
+      <div class="dd-box" id="enquiries">
+        <h2>Customer enquiries <span class="dd-pill {{ 'ok' if enquiries else '' }}" style="vertical-align:middle;">{{ enquiries|length }}</span></h2>
+        <p class="dd-sub">Customers who clicked &ldquo;Hire This Designer&rdquo; on your profile. Please contact them soon.</p>
+        {% if not enquiries %}<div class="dd-empty">No enquiries yet. They will appear here once customers contact you.</div>{% endif %}
+        {% for e in enquiries %}
+        <div class="dd-enq">
+          <div class="dd-enq-top"><b>{{ e['Customer Name'] }}</b><span>{{ e['Enquiry ID'] }} &middot; {{ e['Date & Time'] }}</span></div>
+          <dl>
+            <dt>Mobile</dt><dd><a href="tel:{{ e['Mobile']|replace(' ', '') }}">{{ e['Mobile'] }}</a></dd>
+            <dt>Email</dt><dd><a href="mailto:{{ e['Email'] }}">{{ e['Email'] }}</a></dd>
+            <dt>Property</dt><dd>{{ e['Property Type'] }} &middot; {{ e['Property Location'] }}</dd>
+            <dt>Budget</dt><dd>{{ e['Budget'] }}</dd>
+            <dt>Project</dt><dd class="txt">{{ e['Project Description'] }}</dd>
+          </dl>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- profile details -->
+      <div class="dd-box" id="profile">
+        <h2>Profile details</h2>
+        <p class="dd-sub">Shown on your public page: name, company, location, experience, services and description. Only name, mobile and experience are compulsory &mdash; the rest is optional. Your mobile number, e-mail and address are never shown publicly.</p>
+
+        {% if errors %}
+        <div class="dd-errors" role="alert"><strong>Please fix the following:</strong><ul>{% for e in errors %}<li>{{ e }}</li>{% endfor %}</ul></div>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('designer_update_profile') }}">
+          <div class="dd-cols">
+            <div class="dd-f"><label for="dd_name">Full Name <em>*</em></label>
+              <input type="text" id="dd_name" name="full_name" maxlength="80" value="{{ form.full_name }}" required></div>
+            <div class="dd-f"><label for="dd_company">Company Name <small>(optional)</small></label>
+              <input type="text" id="dd_company" name="company_name" maxlength="120" value="{{ form.company_name }}"></div>
+            <div class="dd-f"><label>E-mail</label>
+              <input type="email" value="{{ row['Email'] }}" disabled>
+              <div class="dd-hint">E-mail cannot be changed. Contact us if you need help.</div></div>
+            <div class="dd-f"><label for="dd_mobile">Mobile Number <em>*</em></label>
+              <input type="tel" id="dd_mobile" name="mobile" inputmode="numeric" maxlength="16" value="{{ form.mobile }}" required></div>
+            <div class="dd-f"><label for="dd_city">Location (City) <small>(optional, shown on your public profile)</small></label>
+              <input type="text" id="dd_city" name="city" maxlength="60" value="{{ form.city }}"></div>
+            <div class="dd-f"><label for="dd_exp">Experience <em>*</em></label>
+              <select id="dd_exp" name="experience" required>
+                {% for x in experience_options %}<option value="{{ x }}" {% if form.experience == x %}selected{% endif %}>{{ x }}</option>{% endfor %}
+              </select></div>
+            <div class="dd-f dd-full"><label for="dd_addr">Business Address <small>(optional &mdash; private, not shown on your public page)</small></label>
+              <textarea id="dd_addr" name="business_address" rows="2" maxlength="300">{{ form.business_address }}</textarea></div>
+          </div>
+
+          <div class="dd-f" style="margin-top:22px;"><label>Specialisation <small>(optional)</small></label>
+            <div class="dd-tags">{% for s in specialisations %}<label class="dd-chip"><input type="checkbox" name="specialisation" value="{{ s }}" {% if s in sel_spec %}checked{% endif %}><span>{{ s }}</span></label>{% endfor %}</div></div>
+          <div class="dd-f"><label>Services you offer <small>(optional)</small></label>
+            <div class="dd-tags">{% for s in services %}<label class="dd-chip"><input type="checkbox" name="services" value="{{ s }}" {% if s in sel_srv %}checked{% endif %}><span>{{ s }}</span></label>{% endfor %}</div></div>
+          <div class="dd-f"><label for="dd_desc">Description <small>(optional &mdash; about you and your services, 20&ndash;1500 characters)</small></label>
+            <textarea id="dd_desc" name="services_details" rows="5" maxlength="1500">{{ form.services_details }}</textarea></div>
+          <div class="dd-f"><label for="dd_psum">About your completed projects <small>(optional)</small></label>
+            <textarea id="dd_psum" name="projects_summary" rows="3" maxlength="1500">{{ form.projects_summary }}</textarea></div>
+          <button class="dd-btn dd-save" type="submit">Save profile</button>
+        </form>
+      </div>
+
+      <!-- designer photo -->
+      <div class="dd-box" id="photo">
+        <h2>Your photo</h2>
+        <p class="dd-sub">Shown on your public profile and on the Find Designers page. JPG, PNG or WEBP, up to 5 MB.</p>
+        {% if c.photo %}<img src="{{ c.photo }}" alt="Your photo" style="width:120px;height:120px;border-radius:50%;object-fit:cover;border:2px solid #c7a16d;margin-bottom:14px;display:block;">{% else %}<div class="dd-empty">No photo yet. Upload one below.</div>{% endif %}
+        <form class="dd-upload" method="POST" action="{{ url_for('designer_update_photo') }}" enctype="multipart/form-data">
+          <input type="file" name="photo" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" required>
+          <button class="dd-btn" type="submit">{{ 'Change photo' if c.photo else 'Upload photo' }}</button>
+        </form>
+      </div>
+
+      <!-- portfolio images -->
+      <div class="dd-box" id="portfolio">
+        <h2>Portfolio images <span class="dd-pill" style="vertical-align:middle;">{{ c.portfolio|length }} / {{ max_portfolio }}</span></h2>
+        <p class="dd-sub">The first image is your cover on the designers page. JPG, PNG or WEBP &mdash; all your portfolio files together can be up to 30 MB.</p>
+        {% if c.portfolio|length < max_portfolio %}
+        <form class="dd-upload" method="POST" action="{{ url_for('designer_upload') }}" enctype="multipart/form-data">
+          <input type="hidden" name="kind" value="portfolio">
+          <input type="file" name="files" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" multiple required>
+          <button class="dd-btn" type="submit">Upload images</button>
+        </form>
+        {% endif %}
+        {% if not c.portfolio %}<div class="dd-empty">No portfolio images yet. Upload your best work above.</div>{% endif %}
+        <div class="dd-grid">
+          {% for f in c.portfolio %}
+          <div class="dd-tile">
+            {% if loop.first %}<span class="dd-cover">COVER</span>{% endif %}
+            <a href="{{ f.url }}" target="_blank" rel="noopener"><img src="{{ f.url }}" alt="" loading="lazy"></a>
+            <div class="acts">
+              {% if not loop.first %}
+              <form method="POST" action="{{ url_for('designer_image_action', action='cover') }}"><input type="hidden" name="kind" value="portfolio"><input type="hidden" name="filename" value="{{ f.file }}"><button class="dd-btn ghost sm" type="submit">Make cover</button></form>
+              {% endif %}
+              <form method="POST" action="{{ url_for('designer_image_action', action='delete') }}"><input type="hidden" name="kind" value="portfolio"><input type="hidden" name="filename" value="{{ f.file }}"><button class="dd-btn danger sm" type="submit" onclick="return confirm('Delete this image?')">Delete</button></form>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- completed projects -->
+      <div class="dd-box" id="projects">
+        <h2>Completed project files <span class="dd-pill" style="vertical-align:middle;">{{ c.projects|length }} / {{ max_projects }}</span></h2>
+        <p class="dd-sub">Photos of finished projects (JPG, PNG, WEBP) or PDF presentations &mdash; up to 30 MB in total. They appear in the &ldquo;Completed projects&rdquo; section of your public page.</p>
+        {% if c.projects|length < max_projects %}
+        <form class="dd-upload" method="POST" action="{{ url_for('designer_upload') }}" enctype="multipart/form-data">
+          <input type="hidden" name="kind" value="projects">
+          <input type="file" name="files" accept=".jpg,.jpeg,.png,.webp,.pdf,image/jpeg,image/png,image/webp,application/pdf" multiple required>
+          <button class="dd-btn" type="submit">Upload files</button>
+        </form>
+        {% endif %}
+        {% if not c.projects %}<div class="dd-empty">No completed project files yet.</div>{% endif %}
+        <div class="dd-grid">
+          {% for f in c.projects %}
+          <div class="dd-tile">
+            <a href="{{ f.url }}" target="_blank" rel="noopener">{% if f.pdf %}<div class="pdf">PDF</div>{% else %}<img src="{{ f.url }}" alt="" loading="lazy">{% endif %}</a>
+            {% if f.pdf %}<div class="cap">{{ f.name }}</div>{% endif %}
+            <div class="acts">
+              <form method="POST" action="{{ url_for('designer_image_action', action='delete') }}"><input type="hidden" name="kind" value="projects"><input type="hidden" name="filename" value="{{ f.file }}"><button class="dd-btn danger sm" type="submit" onclick="return confirm('Delete this file?')">Delete</button></form>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- change password -->
+      <div class="dd-box" id="password">
+        <h2>Change password</h2>
+        <p class="dd-sub">You log in with your Designer ID <b>{{ row['Designer ID'] }}</b> and your password.</p>
+        <form method="POST" action="{{ url_for('designer_change_password') }}">
+          <div class="dd-cols">
+            <div class="dd-f dd-full"><label for="dd_cur">Current password</label>
+              <input type="password" id="dd_cur" name="current_password" autocomplete="current-password" required></div>
+            <div class="dd-f"><label for="dd_new">New password <small>(min 8 characters)</small></label>
+              <input type="password" id="dd_new" name="new_password" minlength="8" maxlength="64" autocomplete="new-password" required></div>
+            <div class="dd-f"><label for="dd_new2">Confirm new password</label>
+              <input type="password" id="dd_new2" name="confirm_password" minlength="8" maxlength="64" autocomplete="new-password" required></div>
+          </div>
+          <button class="dd-btn dd-save" type="submit">Change password</button>
+        </form>
+      </div>
+
+    </div>
+  </section>
+</div>
+{% endblock %}

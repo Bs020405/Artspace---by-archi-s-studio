@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Registration Complete — Artspace by Archi's Studio{% endblock %}
+
+{% block content %}
+<style>
+.jds2{padding:64px 0 80px;background:linear-gradient(180deg,#fff 0%,#f6efe2 100%);font-family:'Helvetica Neue',Arial,sans-serif;color:#111}
+.jds2-card{position:relative;overflow:hidden;max-width:680px;margin:0 auto;text-align:center;background:#111;color:#fff;border:1px solid #c7a16d;border-radius:20px;padding:52px 34px 44px;box-shadow:0 0 0 6px rgba(199,161,109,.16),0 30px 70px rgba(138,90,43,.28)}
+.jds2-card::before{content:"";position:absolute;right:-120px;top:-120px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(199,161,109,.28),transparent 70%);pointer-events:none}
+.jds2-card>*{position:relative}
+.jds2-tick{width:64px;height:64px;margin:0 auto 18px;border-radius:50%;background:#c7a16d;color:#111;display:grid;place-items:center}
+.jds2-tick svg{width:32px;height:32px}
+.jds2-kick{font-size:12px;letter-spacing:.3em;font-weight:700;color:#c7a16d}
+.jds2-card h1{margin:12px 0 10px;font-family:'Playfair Display',Georgia,serif;font-weight:400;font-size:clamp(28px,4.6vw,44px);line-height:1.1}
+.jds2-card p{margin:0 auto;max-width:520px;color:#cfcfcf;font-size:15.5px;line-height:1.7}
+.jds2-id{display:inline-block;margin:26px 0 8px;padding:16px 34px;border:1px dashed #c7a16d;border-radius:12px;background:rgba(199,161,109,.08)}
+.jds2-id small{display:block;font-size:11px;letter-spacing:.28em;color:#c7a16d;font-weight:700}
+.jds2-id b{display:block;margin-top:6px;font-family:'Playfair Display',Georgia,serif;font-size:clamp(30px,6vw,44px);font-weight:600;letter-spacing:.08em;color:#f1d9a8;user-select:all}
+.jds2-meta{margin:0 0 4px;font-size:13px;color:#a9a9a9}
+.jds2-pay{max-width:440px;margin:18px auto 14px;border:1px solid rgba(199,161,109,.4);border-radius:12px;background:rgba(199,161,109,.07);text-align:left}
+.jds2-pay div{display:flex;justify-content:space-between;gap:14px;padding:10px 16px;font-size:13.5px}
+.jds2-pay div+div{border-top:1px solid rgba(199,161,109,.22)}
+.jds2-pay span{color:#b9b9b9}.jds2-pay b{color:#f1d9a8;text-align:right;word-break:break-all}.jds2-pay b.ok{color:#8fe3a1}
+.jds2-steps{max-width:680px;margin:30px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.jds2-steps div{background:#fff;border:1px solid #eadfcb;border-radius:12px;padding:18px 16px;font-size:14px;color:#444;line-height:1.5}
+.jds2-steps b{display:block;margin-bottom:4px;font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:500;color:#111}
+.jds2-btns{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:30px}
+.jds2-btns a{display:inline-flex;align-items:center;padding:15px 30px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;transition:.3s}
+.jds2-btns .p{background:#c7a16d;color:#111;border:1px solid #c7a16d}.jds2-btns .p:hover{background:#fff;border-color:#fff}
+.jds2-btns .g{color:#8a5a2b;border:1px solid #8a5a2b}.jds2-btns .g:hover{background:#8a5a2b;color:#fff}
+@media(max-width:700px){.jds2{padding:40px 0 56px}.jds2-card{padding:38px 20px 32px}.jds2-steps{grid-template-columns:1fr}.jds2-btns a{width:100%;justify-content:center}}
+</style>
+<section class="jds2">
+  <div class="container">
+    <div class="jds2-card">
+      <div class="jds2-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+      <div class="jds2-kick">PAYMENT RECEIVED</div>
+      <h1>Welcome aboard, {{ info.name.split(' ')[0] }}.</h1>
+      <p>Thank you for registering with Artspace by Archi&rsquo;s Studio. Your payment was successful. Your designer profile is now <b>live on our website</b>.</p>
+      <div class="jds2-id"><small>YOUR DESIGNER ID</small><b>{{ info.id }}</b></div>
+      <div class="jds2-meta">{{ info.type }} &middot; {{ info.portfolio }} portfolio image{{ '' if info.portfolio == 1 else 's' }} &middot; {{ info.projects }} project file{{ '' if info.projects == 1 else 's' }}</div>
+      <div class="jds2-pay">
+        <div><span>Payment status</span><b class="ok">Paid</b></div>
+        <div><span>Profile status</span><b>{% if info.approval == 'Rejected' %}Hidden{% else %}<span class="ok">Live on website</span>{% endif %}</b></div>
+        <div><span>Amount paid</span><b>&#8377;{{ info.fee }}</b></div>
+        {% if info.payment_id %}<div><span>Payment ID</span><b>{{ info.payment_id }}</b></div>{% endif %}
+        {% if info.paid_on %}<div><span>Paid on</span><b>{{ info.paid_on }}</b></div>{% endif %}
+      </div>
+      <p class="jds2-meta">A confirmation with your details and receipt has been sent to {{ info.email }}. <b>Keep your Designer ID safe:</b> you will log in with this ID and your password.</p>
+    </div>
+    <div class="jds2-steps">
+      <div><b>1. You are live</b>Your profile is published on the Find Designers page.</div>
+      <div><b>2. Complete it</b>Log in to add your city, services, description and more images.</div>
+      <div><b>3. Get enquiries</b>Customers can hire you and you will get their enquiries by dashboard.</div>
+    </div>
+    <div class="jds2-btns">
+      <a class="p" href="{{ url_for('designer_profile', designer_id=info.id) }}">View my public profile</a>
+      <a class="g" href="{{ url_for('designer_login') }}">Designer login</a>
+      <a class="g" href="{{ url_for('index') }}">Back to Home</a>
+          </div>
+  </div>
+</section>
+{% endblock %}

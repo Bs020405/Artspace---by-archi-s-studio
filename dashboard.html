@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}My Account — Interior Company{% endblock %}
+
+{% block content %}
+<section class="dash-hero">
+  <div class="container">
+    <div class="kicker">MY ACCOUNT</div>
+    <h1>Welcome back, {{ user['Full Name'].split(' ')[0] }}.</h1>
+    <p>Manage your profile, review your consultation history and track project status.</p>
+  </div>
+</section>
+
+<section class="dash-wrap">
+  <div class="container">
+    <div class="dash-grid">
+
+      <!-- LEFT: profile + actions -->
+      <div>
+        <div class="dash-card">
+          <h3>Your Profile</h3>
+          <div class="profile-field"><span>Name</span><span>{{ user['Full Name'] }}</span></div>
+          <div class="profile-field"><span>Email</span><span>{{ user['Email'] }}</span></div>
+          <div class="profile-field"><span>Phone</span><span>{{ user['Phone'] }}</span></div>
+          <div class="profile-field"><span>Address</span><span>{{ user['Address'] or '—' }}</span></div>
+          <div class="profile-field"><span>Member Since</span><span>{{ user['Registered On'] }}</span></div>
+        </div>
+
+        <div class="dash-card">
+          <h3>Quick Actions</h3>
+          <div class="dash-actions">
+            <a class="link-btn" href="{{ url_for('book_consultation') }}">Book a Consultation</a>
+            <a class="link-btn ghost" href="{{ url_for('edit_profile') }}">Edit Profile</a>
+            <a class="link-btn ghost" href="{{ url_for('inquiry') }}">Send an Inquiry</a>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <h3>Recent Logins</h3>
+          {% for l in logins %}
+          <div class="profile-field"><span>{{ l['Event'] }}</span><span>{{ l['Date & Time'] }}</span></div>
+          {% else %}
+          <div class="profile-field"><span>No logins recorded yet.</span></div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- RIGHT: booking history / project status -->
+      <div>
+        <h2 class="section-heading">Consultation & Project History</h2>
+
+        {% if bookings %}
+        <div class="dash-card" style="overflow-x:auto;">
+          <table class="booking-table">
+            <thead>
+              <tr>
+                <th>Booking ID</th>
+                <th>Service</th>
+                <th>Preferred Date</th>
+                <th>Address</th>
+                <th>Status</th>
+                <th>Booked On</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for b in bookings %}
+              <tr>
+                <td>#{{ b['Booking ID'] }}</td>
+                <td>{{ b['Service Type'] }}</td>
+                <td>{{ b['Preferred Date'] }}{% if b['Preferred Time'] %} · {{ b['Preferred Time'] }}{% endif %}</td>
+                <td>{{ b['Address'] }}</td>
+                <td>
+                  {% set status = (b['Status'] or 'Pending') %}
+                  <span class="status-pill status-{{ status|lower|replace(' ', '-') }}">{{ status }}</span>
+                </td>
+                <td>{{ b['Booked On'] }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+          You haven't booked a consultation yet.<br>
+          <a class="link-btn" style="display:inline-block;margin-top:16px;padding:10px 26px;" href="{{ url_for('book_consultation') }}">Book Your First Consultation</a>
+        </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</section>
+{% endblock %}

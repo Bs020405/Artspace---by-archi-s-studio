@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Complete Payment — Artspace Designer Registration{% endblock %}
+
+{% block content %}
+<style>
+.jdp{padding:60px 0 80px;background:linear-gradient(180deg,#fff 0%,#f6efe2 100%);font-family:'Helvetica Neue',Arial,sans-serif;color:#111}
+.jdp-card{position:relative;overflow:hidden;max-width:640px;margin:0 auto;text-align:center;background:#111;color:#fff;border:1px solid #c7a16d;border-radius:20px;padding:46px 32px 38px;box-shadow:0 0 0 6px rgba(199,161,109,.16),0 30px 70px rgba(138,90,43,.28)}
+.jdp-card::before{content:"";position:absolute;right:-120px;top:-120px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(199,161,109,.28),transparent 70%);pointer-events:none}
+.jdp-card>*{position:relative}
+.jdp-kick{font-size:12px;letter-spacing:.3em;font-weight:700;color:#c7a16d}
+.jdp-card h1{margin:12px 0 8px;font-family:'Playfair Display',Georgia,serif;font-weight:400;font-size:clamp(28px,4.6vw,42px);line-height:1.1}
+.jdp-card>p{margin:0 auto;max-width:500px;color:#cfcfcf;font-size:15px;line-height:1.7}
+.jdp-sum{margin:26px 0 8px;border:1px solid rgba(199,161,109,.4);border-radius:12px;background:rgba(199,161,109,.07);text-align:left}
+.jdp-sum div{display:flex;justify-content:space-between;gap:16px;padding:12px 18px;font-size:14px}
+.jdp-sum div+div{border-top:1px solid rgba(199,161,109,.22)}
+.jdp-sum span{color:#b9b9b9}.jdp-sum b{color:#f1d9a8;text-align:right}
+.jdp-sum .tot b{font-family:'Playfair Display',Georgia,serif;font-size:24px}
+.jdp-pill{display:inline-block;padding:3px 12px;border-radius:99px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;background:#f1d9a8;color:#6b4620}
+.jdp-pill.bad{background:#f4b9b3;color:#7a1c16}
+.jdp-warn{margin:14px 0 0;padding:11px 16px;border-radius:8px;background:rgba(244,185,179,.14);border:1px solid rgba(244,185,179,.45);color:#f4cfca;font-size:13.5px;line-height:1.55}
+.jdp-payform{margin-top:24px}
+.jdp-payform .razorpay-payment-button,.jdp-payform button{display:inline-flex;align-items:center;justify-content:center;padding:17px 40px;border:1px solid #c7a16d;border-radius:8px;background:#c7a16d;color:#111;font:700 13px/1 'Helvetica Neue',Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:.3s}
+.jdp-payform .razorpay-payment-button:hover,.jdp-payform button:hover{background:#fff;border-color:#fff}
+.jdp-hint{margin:14px 0 0;font-size:13px;color:#f1d9a8}
+.jdp-foot{margin-top:6px;font-size:12.5px;color:#9a9a9a;line-height:1.6}
+.jdp-foot a{color:#c7a16d}
+@media(max-width:560px){.jdp{padding:36px 0 56px}.jdp-card{padding:34px 18px 28px}.jdp-payform button{width:100%}}
+</style>
+<section class="jdp">
+  <div class="container">
+    <div class="jdp-card">
+      <div class="jdp-kick">STEP 2 OF 2 &middot; REGISTRATION FEE</div>
+      <h1>Complete your payment</h1>
+      <p>Your details and files are saved. Pay the one-time registration fee to <b>activate</b> your designer registration.</p>
+
+      <div class="jdp-sum">
+        <div><span>Designer ID</span><b>{{ row['Designer ID'] }}</b></div>
+        <div><span>Name</span><b>{{ row['Full Name'] }}</b></div>
+        <div><span>Registration status</span><b><span class="jdp-pill {{ 'bad' if failed }}">{{ 'Payment failed' if failed else 'Payment pending' }}</span> &nbsp;Not active yet</b></div>
+        <div class="tot"><span>One-time registration fee</span><b>&#8377;{{ fee_inr }}</b></div>
+      </div>
+
+      {% if failed %}<div class="jdp-warn">Your last payment attempt was not successful. Nothing is active until a payment succeeds &mdash; you can safely try again.</div>{% endif %}
+      {% if pay_error %}
+        <div class="jdp-warn">{{ pay_error }}</div>
+      {% else %}
+        <form class="jdp-payform" method="POST" action="{{ url_for('join_designer_payment_complete') }}">
+          <input type="hidden" name="token" value="{{ token }}">
+          <script src="https://checkout.razorpay.com/v1/checkout.js"
+                  data-key="{{ key_id }}"
+                  data-amount="{{ amount }}"
+                  data-currency="INR"
+                  data-order_id="{{ rzp_order_id }}"
+                  data-buttontext="Pay &#8377;{{ fee_inr }} securely"
+                  data-name="ARTSPACE by Archi's Studio"
+                  data-description="Designer registration fee - {{ row['Designer ID'] }}"
+                  data-prefill.name="{{ row['Full Name'] }}"
+                  data-prefill.email="{{ row['Email'] }}"
+                  data-prefill.contact="{{ row['Mobile'] }}"
+                  data-theme.color="#c7a16d"></script>
+        </form>
+        <p class="jdp-hint">Your registration stays inactive until the payment succeeds.</p>
+      {% endif %}
+
+      <div class="jdp-foot">Secure payment by Razorpay &middot; UPI, cards, netbanking &amp; wallets.<br>
+        Already paid? <a href="{{ url_for('join_designer_pay', token=token) }}">Check payment status</a> &middot; A payment link was also e-mailed to you, so you can finish later.</div>
+    </div>
+  </div>
+</section>
+{% endblock %}
