@@ -1,0 +1,9 @@
+.env
+razorpay_secret.txt
+client_secret_*.json
+*.xlsx
+*.xlsx.bak
+__pycache__/
+*.pyc
+venv/
+.venv/
