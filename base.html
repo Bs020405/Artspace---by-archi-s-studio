@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Interior Company — Interior Design{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+  .account-bar {
+    background: #fff !important;
+    border-bottom: 1px solid #eee;
+  }
+  .account-bar a,
+  .account-bar span {
+    color: #111 !important;
+  }
+  .account-bar a:hover {
+    opacity: 0.7;
+  }
+
+  .g-avatar { width:22px; height:22px; border-radius:50%; object-fit:cover; vertical-align:middle; margin-right:6px; }
+  /* Continue with Google (login / signup pages only) */
+  .g-slot { max-width:440px; margin:0 auto 18px; padding:0 20px; }
+  .g-slot.in-card { max-width:none; padding:0; margin:0 0 20px; }
+  .g-btn { display:flex; align-items:center; justify-content:center; gap:12px; width:100%; padding:12px 16px;
+           background:#fff; color:#3c4043 !important; border:1px solid #dadce0; border-radius:8px;
+           font:500 15px/1.2 'DM Sans','Helvetica Neue',Arial,sans-serif; text-decoration:none;
+           box-shadow:0 1px 2px rgba(60,64,67,.12); transition:box-shadow .2s, background .2s; }
+  .g-btn:hover { background:#f8f9fa; box-shadow:0 1px 3px rgba(60,64,67,.3); opacity:1 !important; }
+  .g-btn svg { width:20px; height:20px; flex:none; }
+  .g-or { display:flex; align-items:center; gap:12px; margin-top:18px; color:#888; font-size:12.5px; letter-spacing:.04em; }
+  .g-or::before, .g-or::after { content:""; flex:1; height:1px; background:#e4e4e4; }
+</style>
+</head>
+<body>
+
+<!-- ACCOUNT BAR -->
+<div class="account-bar">
+  <div class="container">
+    {% if current_user_email %}
+      {% if current_user_picture %}<img class="g-avatar" src="{{ current_user_picture }}" alt="" referrerpolicy="no-referrer">{% endif %}
+      <span>Hi, {{ current_user_name }}</span>
+      <span class="dot">•</span>
+      <a href="{{ url_for('dashboard') }}">My Account</a>
+      <span class="dot">•</span>
+      <a href="{{ url_for('book_consultation') }}">Book Consultation</a>
+      <span class="dot">•</span>
+      <a href="{{ url_for('join_designer') }}">Join as a Designer</a>
+      <span class="dot">•</span>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    {% else %}
+      <a href="{{ url_for('login') }}">Login</a>
+      <span class="dot">•</span>
+      <a href="{{ url_for('register') }}">Create Account</a>
+      <span class="dot">•</span>
+      <a href="{{ url_for('join_designer') }}">Join as a Designer</a>
+      <span class="dot">•</span>
+      <a href="{{ url_for('designer_login') }}">Designer Login</a>
+    {% endif %}
+  </div>
+</div>
+
+{% block hero_top %}{% endblock %}
+
+<!-- CENTERED MAGAZINE-STYLE LOGO -->
+<style>
+/* Artspace logo (same mark + wordmark as the home page) */
+.bx-logo{display:inline-flex;align-items:center;justify-content:center;gap:12px;color:#111;text-decoration:none;transition:opacity .3s}
+.bx-logo:hover{opacity:.85}
+.bx-amark{width:46px;height:46px;color:#8a5a2b;flex:none;transition:transform .4s}
+.bx-logo:hover .bx-amark{transform:translateY(-2px) scale(1.06)}
+.bx-word{display:flex;flex-direction:column;align-items:flex-start;line-height:1;gap:6px}
+.bx-name{font-family:'Playfair Display',Georgia,serif;font-size:34px;font-weight:600;letter-spacing:.06em;color:#111}
+.bx-name b{font-weight:700;font-style:italic;background:linear-gradient(135deg,#b07a3a,#8a5a2b);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-right:1px}
+.bx-word small{display:flex;align-items:center;gap:8px;font-family:'Helvetica Neue',Arial,sans-serif;font-size:10.5px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:#8a5a2b;white-space:nowrap}
+.bx-word small::before{content:"";width:22px;height:1px;background:#c7a16d}
+.brand-area{text-align:center}
+@media(max-width:560px){.bx-logo{gap:9px}.bx-amark{width:36px;height:36px}.bx-name{font-size:26px}.bx-word small{font-size:8.5px;letter-spacing:.2em}.bx-word small::before{width:14px}}
+</style>
+<section class="brand-area">
+  <a href="{{ url_for('index') }}" class="bx-logo" aria-label="Artspace home">
+    <svg class="bx-amark" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M9 56L32 8l23 48" stroke-width="4.5"/>
+      <path d="M19 41q13-15 26 0" stroke-width="3.2"/>
+      <path d="M32 56V44" stroke-width="3.2"/>
+      <circle cx="32" cy="8" r="3.2" fill="currentColor" stroke="none"/>
+    </svg>
+    <span class="bx-word"><span class="bx-name"><b>Art</b>space</span><small>by Archi's Studio</small></span>
+  </a>
+</section>
+
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flash-wrap">
+      {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+{% block content %}{% endblock %}
+
+{% if request.endpoint in ('login', 'register') %}
+<div class="g-slot" id="gSlot">
+  <a class="g-btn" href="{{ url_for('google_login', next=request.args.get('next')) }}">
+    <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.4 5.7c4.3-4 6.9-9.9 6.9-17.1z"/><path fill="#FBBC05" d="M10.5 28.7a14.5 14.5 0 010-9.4l-7.9-6.1a24 24 0 000 21.6l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.4-5.7c-2.1 1.4-4.8 2.3-8.5 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>
+    <span>Continue with Google</span>
+  </a>
+  <div class="g-or"><span>or continue with email</span></div>
+</div>
+<script>
+  /* put the Google button at the top of the existing login / signup card (stays above it without JavaScript) */
+  (function () {
+    var slot = document.getElementById('gSlot'), card = document.querySelector('.auth-card');
+    var form = card && card.querySelector('form');
+    if (slot && form) { form.parentNode.insertBefore(slot, form); slot.className += ' in-card'; }
+  })();
+</script>
+{% endif %}
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Interior Company</div>
+        <p>A design studio creating refined, functional and deeply personal interiors for modern homes and spaces.</p>
+      </div>
+      <div><h4>Explore</h4><ul>
+        <li><a href="{{ url_for('index') }}#projects">Projects</a></li>
+        <li><a href="{{ url_for('index') }}#services">Services</a></li>
+        <li><a href="{{ url_for('index') }}#products">Products</a></li>
+        <li><a href="{{ url_for('designers_directory') }}">Find Designers</a></li>
+        <li><a href="{{ url_for('join_designer') }}">Join as a Designer</a></li>
+        <li><a href="{{ url_for('designer_login') }}">Designer Login</a></li>
+      </ul></div>
+      <div><h4>Account</h4><ul>
+        {% if current_user_email %}
+          <li><a href="{{ url_for('dashboard') }}">My Account</a></li>
+          <li><a href="{{ url_for('book_consultation') }}">Book Consultation</a></li>
+          <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        {% else %}
+          <li><a href="{{ url_for('login') }}">Login</a></li>
+          <li><a href="{{ url_for('register') }}">Create Account</a></li>
+          <li><a href="{{ url_for('inquiry') }}">Send Inquiry</a></li>
+        {% endif %}
+      </ul></div>
+      <div><h4>Contact</h4><ul>
+        <li><a href="https://mail.google.com/mail/?view=cm&fs=1&to=interiordesige7872@gmail.com" target="_blank" rel="noopener">interiordesige7872@gmail.com</a></li>
+        <li><a href="https://wa.me/918320351503?text=Hi%20Interior%20Company%2C%20I%27d%20like%20to%20know%20more%20about%20your%20interior%20design%20services." target="_blank" rel="noopener">+91 8320351503</a></li>
+        <li>Open by appointment</li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© Artspace By Archi's Studio. All rights reserved.</span>
+      <span>Designed for better living.</span>
+    </div>
+  </div>
+</footer>
+
+{% block scripts %}{% endblock %}
+</body>
+</html>

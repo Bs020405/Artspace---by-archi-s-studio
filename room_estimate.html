@@ -1,0 +1,627 @@
+{% extends "base.html" %}
+{% block title %}AI Room Estimate — Upload Your Room Photo | Artspace by Archi's Studio{% endblock %}
+
+{% block hero_top %}
+<style>
+/* base template ka purana header hide (hero me apna nav hai) */
+body > header, body > nav, .site-header, .topbar, header.top, header.site-header{display:none!important}
+.hx{--accent:#c7a16d;--ink:#111;position:relative;height:56vh;min-height:430px;overflow:hidden;color:#fff;font-family:'Helvetica Neue',Arial,sans-serif;background:#111}
+.hx *{box-sizing:border-box}
+.hx a{color:inherit;text-decoration:none}
+.hx-bg{position:absolute;inset:0;z-index:0}
+.hx-bg img{width:100%;height:100%;object-fit:cover}
+.hx::before{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(90deg,rgba(10,10,10,.72) 0%,rgba(10,10,10,.28) 55%,rgba(10,10,10,.1) 100%),linear-gradient(180deg,rgba(0,0,0,.55) 0,transparent 35%,transparent 65%,rgba(0,0,0,.5) 100%)}
+/* NAV (index jaisa hi) */
+.hx-nav{position:absolute;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 4vw;height:84px;border-bottom:1px solid rgba(255,255,255,.18);color:#fff;transition:background .35s,height .35s,box-shadow .35s,color .35s}
+html{scroll-padding-top:90px;scroll-behavior:smooth}
+.hx-nav.stuck{background:rgba(255,255,255,.97);backdrop-filter:blur(8px);height:76px;color:#111;border-bottom-color:transparent;box-shadow:0 6px 24px rgba(0,0,0,.12)}
+.hx-nav.stuck .hx-menu>li>a{padding:26px 0}
+.hx-nav.stuck .hx-menu>li>a::after{bottom:18px}
+.hx-nav.stuck .hx-drop{top:74px}
+.hx-nav.stuck .hx-burger span{background:#111}
+.hx-nav.stuck .hx-menu>li>a,.hx-nav.stuck .hx-call{color:#111}
+.hx-logo{display:flex;align-items:center;gap:12px;background:transparent;color:#fff!important;font-weight:400;letter-spacing:0;padding:0;height:100%;box-shadow:none;transition:color .35s}
+.hx-amark{width:42px;height:42px;color:var(--accent);flex:none;filter:drop-shadow(0 2px 8px rgba(0,0,0,.35));transition:transform .4s}
+.hx-logo:hover .hx-amark{transform:translateY(-2px) scale(1.06)}
+.hx-word{display:flex;flex-direction:column;line-height:1;gap:6px}
+.hx-name{font-family:'Playfair Display',Georgia,serif;font-size:30px;font-weight:600;letter-spacing:.06em;text-shadow:0 2px 14px rgba(0,0,0,.35)}
+.hx-name b{font-weight:700;font-style:italic;background:linear-gradient(135deg,#f1d9a8 0%,#c7a16d 50%,#a97d3e 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-right:1px}
+.hx-word small{display:flex;align-items:center;gap:8px;font-family:'Helvetica Neue',Arial,sans-serif;font-size:10px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.92);white-space:nowrap}
+.hx-word small::before{content:"";width:22px;height:1px;background:var(--accent)}
+.hx-nav.stuck .hx-name{text-shadow:none}
+.hx-nav.stuck .hx-name b{background:linear-gradient(135deg,#b07a3a,#8a5a2b);-webkit-background-clip:text;background-clip:text}
+.hx-nav.stuck .hx-word small{color:#8a5a2b}
+.hx-nav.stuck .hx-logo{color:#111!important}
+.hx-nav.stuck .hx-amark{color:#8a5a2b;filter:none}
+@media(max-width:700px){.hx-logo{gap:9px}.hx-name{font-size:23px}.hx-word small{font-size:8.5px;letter-spacing:.2em}.hx-word small::before{width:14px}.hx-amark{width:34px;height:34px}}
+@media(max-width:340px){.hx-logo{gap:6px}.hx-name{font-size:20px}.hx-word small{font-size:7.5px;letter-spacing:.14em}.hx-word small::before{display:none}.hx-amark{width:28px;height:28px}}
+.hx-menu{display:flex;align-items:center;gap:30px;list-style:none;margin:0;padding:0}
+.hx-menu>li{position:relative}
+.hx-menu>li>a{font-size:13px;letter-spacing:.14em;font-weight:600;text-transform:uppercase;padding:30px 0;display:inline-flex;align-items:center;gap:6px;position:relative}
+.hx-menu>li>a::after{content:"";position:absolute;left:0;bottom:22px;height:2px;width:0;background:var(--accent);transition:width .3s}
+.hx-menu>li:hover>a::after{width:100%}
+.hx-menu .chev{width:9px;height:9px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-2px)}
+.hx-drop{position:absolute;top:78px;left:-20px;min-width:260px;background:rgba(17,17,17,.96);backdrop-filter:blur(8px);padding:12px 0;opacity:0;visibility:hidden;transform:translateY(10px);transition:.25s;border-top:3px solid var(--accent)}
+.hx-menu>li:hover .hx-drop{opacity:1;visibility:visible;transform:none}
+.hx-drop a{display:block;padding:10px 24px;font-size:14px;color:#ddd;transition:.2s}
+.hx-drop a:hover{background:rgba(255,255,255,.07);color:var(--accent);padding-left:30px}
+.hx-right{display:flex;align-items:center;gap:18px}
+.hx-call{display:flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.12em;font-weight:600;text-transform:uppercase}
+.hx-call i{width:34px;height:34px;border-radius:50%;background:var(--accent);color:#111;display:grid;place-items:center;font-style:normal;font-size:15px}
+.hx-burger{display:none;width:34px;height:24px;position:relative;cursor:pointer}
+.hx-burger span{position:absolute;left:0;right:0;height:2px;background:#fff}
+.hx-burger span:nth-child(1){top:2px}.hx-burger span:nth-child(2){top:11px}.hx-burger span:nth-child(3){top:20px}
+/* HERO COPY */
+.hx-copy{position:absolute;z-index:5;left:6vw;right:6vw;top:110px;bottom:40px;max-width:820px;display:flex;flex-direction:column;justify-content:center;animation:hxUp .9s ease both}
+@keyframes hxUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+.hx-eyebrow{display:flex;align-items:center;gap:10px;color:var(--accent);font-size:13px;letter-spacing:.3em;font-weight:600;margin-bottom:18px}
+.hx-eyebrow::before{content:"";width:42px;height:1px;background:var(--accent)}
+.hx-title{font-family:'Playfair Display',Georgia,serif;font-weight:400;font-size:clamp(30px,min(5vw,8.5vh),68px);line-height:1.08;margin:0 0 26px}
+.hx-btns{display:flex;gap:14px;flex-wrap:wrap}
+.hx-btn{display:inline-block;padding:15px 32px;font-size:13px;letter-spacing:.16em;font-weight:600;text-transform:uppercase;border:1px solid #fff;transition:.3s}
+.hx-btn:hover{background:#fff;color:#111!important}
+.hx-btn.solid{background:var(--accent);border-color:var(--accent);color:#111!important}
+.hx-btn.solid:hover{background:#fff;border-color:#fff}
+/* MOBILE MENU */
+.hx-mob{position:fixed;inset:0;z-index:150;background:#111;padding:90px 28px 30px;display:none;overflow:auto}
+.hx-mob a{display:block;padding:14px 0;border-bottom:1px solid #2a2a2a;font-size:17px;color:#fff;text-decoration:none}
+.hx-mob .x{position:absolute;top:22px;right:26px;color:#fff;font-size:34px;cursor:pointer;padding:0!important;border:0!important;width:auto}
+.hx-chk{position:absolute;opacity:0;pointer-events:none}
+.hx-chk:checked ~ .hx-mob{display:block}
+@media(max-width:1100px){.hx-menu,.hx-call{display:none}.hx-burger{display:block}}
+@media(max-width:700px){.hx{min-height:400px}.hx-copy{top:100px}}
+@media(prefers-reduced-motion:reduce){.hx-copy{animation:none}}
+</style>
+
+<!-- HERO WITH NAVIGATION -->
+<section class="hx" id="home">
+  <input type="checkbox" id="hxMenu" class="hx-chk" aria-hidden="true" tabindex="-1">
+  <div class="hx-bg"><img src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1920&q=85" alt="Luxury interior"></div>
+
+  <header class="hx-nav">
+    <a class="hx-logo" href="{{ url_for('index') }}" aria-label="Artspace home">
+      <svg class="hx-amark" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M9 56L32 8l23 48" stroke-width="4.5"/>
+        <path d="M19 41q13-15 26 0" stroke-width="3.2"/>
+        <path d="M32 56V44" stroke-width="3.2"/>
+        <circle cx="32" cy="8" r="3.2" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="hx-word"><span class="hx-name"><b>Art</b>space</span><small>by Archi's Studio</small></span>
+    </a>
+    <ul class="hx-menu">
+      <li><a href="{{ url_for('index') }}">Home</a></li>
+      <li><a href="{{ url_for('index') }}#services">Services <span class="chev"></span></a>
+        <div class="hx-drop">
+          <a href="{{ url_for('living_room_design') }}">Living Room Design</a>
+          <a href="{{ url_for('bedroom_design') }}">Bedroom Design</a>
+          <a href="{{ url_for('kitchen_design') }}">Kitchen &amp; Dining</a>
+          <a href="{{ url_for('lighting_design') }}">Lighting &amp; Decor</a>
+          <a href="{{ url_for('wall_panels') }}">Wall Panels &amp; Textures</a>
+          <a href="{{ url_for('painting_colour') }}">Painting &amp; Colour</a>
+          <a href="{{ url_for('smart_home') }}">Smart Home &amp; Appliances</a>
+          <a href="{{ url_for('renovation_execution') }}">Renovation &amp; Execution</a>
+        </div></li>
+      <li><a href="{{ url_for('index') }}#products">Products</a></li>
+      <li><a href="{{ url_for('index') }}#brands">Brands</a></li>
+      <li><a href="{{ url_for('index') }}#journal">Journal</a></li>
+      <li><a href="{{ url_for('index') }}#contact">Contact</a></li>
+    </ul>
+    <div class="hx-right">
+      {% if current_user_email %}
+        <a class="hx-call" href="{{ url_for('book_consultation') }}"><i>✆</i>Book Now</a>
+      {% else %}
+        <a class="hx-call" href="{{ url_for('login') }}"><i>👤</i>Log in</a>
+      {% endif %}
+      <label class="hx-burger" for="hxMenu" aria-label="Open menu"><span></span><span></span><span></span></label>
+    </div>
+  </header>
+
+  <div class="hx-mob" id="hxMob">
+    <label class="x" for="hxMenu" aria-label="Close menu">×</label>
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('index') }}#services">Services</a>
+    <a href="{{ url_for('index') }}#products">Products</a>
+    <a href="{{ url_for('index') }}#brands">Brands</a>
+    <a href="{{ url_for('index') }}#journal">Journal</a>
+    <a href="{{ url_for('index') }}#contact">Contact</a>
+    {% if current_user_email %}<a href="{{ url_for('book_consultation') }}">Book a Consultation</a>{% else %}<a href="{{ url_for('login') }}">Log in</a><a href="{{ url_for('register') }}">Register</a>{% endif %}
+  </div>
+
+  <div class="hx-copy">
+    <div class="hx-eyebrow">AI ROOM ESTIMATE</div>
+    <h2 class="hx-title">Upload Your Room,<br>Get an Instant Estimate</h2>
+    <div class="hx-btns">
+      <a class="hx-btn solid" href="#upload">UPLOAD ROOM PHOTO</a>
+      <a class="hx-btn" href="{{ url_for('index') }}#projects">SEE OUR PROJECTS</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+{% block content %}
+<style>
+.re{--a:#c7a16d;--g:#8a6a3b;background:#f4f1ec;padding:60px 0 90px;font-family:'Helvetica Neue',Arial,sans-serif;color:#222}
+.re *{box-sizing:border-box}
+.re-w{max-width:1100px;margin:0 auto;padding:0 20px}
+.re-hd{text-align:center;margin-bottom:30px}
+.re-kick{color:var(--g);font-size:13px;letter-spacing:.25em;font-weight:700;text-transform:uppercase}
+.re-hd h1{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:clamp(26px,4vw,44px);margin:10px 0;line-height:1.15}
+.re-hd p{color:#666;font-size:16px;max-width:680px;margin:0 auto;line-height:1.6}
+.re-steps{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:18px}
+.re-steps span{background:#fff;border:1px solid #e3ded5;border-radius:30px;padding:7px 16px;font-size:14px;color:#444}
+.re-card{background:#fff;box-shadow:0 14px 44px rgba(0,0,0,.08);padding:28px}
+.re-form{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start}
+.re-fields{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.re-fields .full{grid-column:1/-1}
+.re-fields label,.re-form>label{display:flex;flex-direction:column;gap:6px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:#555}
+.re-in{width:100%;padding:12px;border:1px solid #d9d4ca;background:#fff;font:inherit;font-size:15px;text-transform:none;letter-spacing:0;font-weight:400;color:#222}
+.re-file{padding:30px 14px;border:2px dashed #d6c7aa;background:#fbf8f2;text-transform:none;letter-spacing:0;font-weight:400;min-height:170px;cursor:pointer}
+.re-hint{grid-column:1/-1;color:#777;font-size:13px;line-height:1.5;margin:0}
+.re-btn{grid-column:1/-1;background:#111;color:#fff;border:0;padding:16px 26px;font:700 13px/1 'Helvetica Neue',Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase;cursor:pointer}
+.re-btn:hover{background:var(--g)}
+.re-btn[disabled]{opacity:.45;cursor:not-allowed}
+.re-msg{margin:18px 0 0;padding:14px 16px;font-size:15px;line-height:1.5}
+.re-msg.err{background:#fdecea;color:#8a2323;border:1px solid #f3c6c2}
+.re-msg.info{background:#eef3f8;color:#2c4a63;border:1px solid #cfdbe7}
+.re-out{margin-top:30px}
+.re-top{display:grid;grid-template-columns:1.2fr 1fr;gap:26px;align-items:start}
+.re-photo{position:relative;line-height:0;background:#111}
+.re-photo img{width:100%;height:auto;max-height:560px;object-fit:contain;display:block;background:#111}
+.re-pin{position:absolute;border:2px solid var(--a);background:rgba(199,161,109,.12)}
+.re-pin b{position:absolute;top:-1px;left:-1px;min-width:22px;height:22px;background:var(--a);color:#111;font:700 12px/22px 'Helvetica Neue',Arial,sans-serif;text-align:center}
+.re-side h3{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:28px;margin:0 0 12px}
+.re-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.re-stats div{background:#faf7f1;border:1px solid #eee5d5;padding:11px 12px}
+.re-stats small{display:block;color:#888;font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px}
+.re-stats b{font-size:16px}
+.re-sum{color:#555;line-height:1.65;font-size:15px;margin:0 0 12px}
+.re-list{list-style:none;margin:0;padding:0}
+.re-list li{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid #f0ebe2;font-size:14.5px;line-height:1.45}
+.re-list li i{flex:none;width:22px;height:22px;background:var(--a);color:#111;font:700 12px/22px 'Helvetica Neue',Arial,sans-serif;text-align:center;font-style:normal}
+.re-list li span{color:#777}
+.re-sec{margin:34px 0 14px}
+.re-sec h2{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:clamp(22px,3vw,32px);margin:0}
+.re-sec p{color:#666;margin:6px 0 0;font-size:15px}
+.re-pal{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.re-pal span{display:flex;align-items:center;gap:8px;font-size:13.5px;background:#fff;border:1px solid #e8e2d6;padding:6px 12px 6px 6px}
+.re-pal em{display:block;width:24px;height:24px;border:1px solid rgba(0,0,0,.15)}
+.re-price{background:#111;color:#fff;padding:26px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+.re-price .lab{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#c9b48c}
+.re-price .big{font-family:'Playfair Display',Georgia,serif;font-size:clamp(34px,6vw,54px);font-weight:700;line-height:1.1}
+.re-price .rng{color:#cfcfcf;font-size:15px;margin-top:4px}
+.re-price .rt{font-size:13px;letter-spacing:.14em;text-transform:uppercase;background:var(--a);color:#111;padding:8px 14px;font-weight:700}
+.re-hl{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0 0}
+.re-hl div{background:#fff;border:1px solid #e8e2d6;padding:16px;border-top:3px solid var(--a)}
+.re-hl small{display:block;color:#888;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+.re-hl b{display:block;font-size:22px;margin:6px 0 2px;font-family:'Playfair Display',Georgia,serif}
+.re-hl span{color:#777;font-size:13px}
+.re-tblw{overflow-x:auto;margin-top:16px;background:#fff;box-shadow:0 8px 30px rgba(0,0,0,.06)}
+table.re-tbl{width:100%;border-collapse:collapse;min-width:640px;font-size:14.5px}
+.re-tbl th{background:#faf7f1;text-align:left;padding:11px 12px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#777;border-bottom:1px solid #e8e2d6}
+.re-tbl td{padding:11px 12px;border-bottom:1px solid #f0ebe2;vertical-align:top}
+.re-tbl td.n,.re-tbl th.n{text-align:right;white-space:nowrap}
+.re-tbl td small{display:block;color:#888;font-size:12.5px;margin-top:2px}
+.re-tbl tr.g td{background:#f4efe5;font-weight:700;color:#5b4524;letter-spacing:.03em}
+.re-tbl tr.t td{background:#111;color:#fff;font-weight:700;font-size:16px}
+.re-note{color:#777;font-size:13.5px;line-height:1.6;margin:14px 0 0}
+.re-ass{margin:10px 0 0;padding-left:20px;color:#555;font-size:14px;line-height:1.7}
+.re-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.re-cta a{display:inline-block;padding:15px 26px;font:700 13px/1 'Helvetica Neue',Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border:1px solid #111;color:#111;background:transparent}
+.re-cta a.g{background:var(--a);border-color:var(--a)}
+.re-cta a.d{background:#111;color:#fff}
+
+/* ---- upload preview + room cards ---- */
+.re-lab{font-size:13px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:#555;margin-bottom:8px}
+.re-lab small{text-transform:none;letter-spacing:0;font-weight:400;color:#888}
+.re-hide{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.re-file{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;font-size:15px;color:#444;transition:.2s}
+.re-file svg{width:34px;height:34px;color:var(--g)}
+.re-file:hover,.re-file.over{background:#f6efe2;border-color:var(--g)}
+.re-fh{color:#777;font-size:13px;max-width:320px}
+.re-prev{border:1px solid #e3ded5;background:#fff}
+.re-prev img{display:block;width:100%;max-height:300px;object-fit:contain;background:#111}
+.re-prev-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:10px 12px}
+.re-prev-name{min-width:0}
+.re-prev-name b{display:block;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px}
+.re-prev-name small{color:#888;font-size:12px}
+.re-prev-btns{display:flex;gap:8px}
+.re-mini{border:1px solid #111;background:#fff;color:#111;padding:8px 14px;font:700 12px/1 'Helvetica Neue',Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.re-mini:hover{background:#111;color:#fff}
+.re-mini.re-del{border-color:#b3261e;color:#b3261e}
+.re-mini.re-del:hover{background:#b3261e;color:#fff}
+.re-rooms{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.re-room{position:relative;cursor:pointer;display:block}
+.re-room input{position:absolute;opacity:0;width:1px;height:1px}
+.re-room span{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 6px;border:1px solid #d9d4ca;background:#fff;font-size:13px;letter-spacing:0;text-transform:none;font-weight:600;color:#333;text-align:center;transition:.2s}
+.re-room svg{width:26px;height:26px;color:var(--g)}
+.re-room:hover span{border-color:var(--a)}
+.re-room input:checked+span{border-color:var(--g);background:#f6efe2;box-shadow:0 0 0 2px rgba(138,106,59,.3)}
+.re-room input:focus-visible+span{outline:2px solid var(--g);outline-offset:2px}
+.re-msg[hidden],.re-prev[hidden]{display:none}
+.re-btn.busy{opacity:.7;cursor:wait}
+@media(max-width:560px){.re-rooms{grid-template-columns:1fr 1fr}}
+
+/* ---- AI vs confirmed measurements ---- */
+.re-src{display:inline-block;padding:4px 10px;border-radius:99px;font-size:12px;font-weight:700;letter-spacing:.02em;white-space:nowrap}
+.re-src.user{background:#e3f3e6;color:#1f6b33}
+.re-src.ai{background:#fff3d6;color:#8a6100}
+.re-src.mixed{background:#e6eefb;color:#2c4a8a}
+.re-meas td,.re-meas th{vertical-align:middle}
+.re-fix{margin-top:20px;padding-top:18px;border-top:1px solid #eee}
+.re-fix-row{display:grid;grid-template-columns:repeat(3,1fr) auto;gap:12px;align-items:end}
+.re-fix-row label{display:flex;flex-direction:column;gap:6px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:#555}
+.re-upd{background:#111;color:#fff;padding:13px 20px}
+.re-upd:hover{background:var(--g);border-color:var(--g)}
+.re-els{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.re-els>div{background:#fff;border:1px solid #e8e2d6;border-top:3px solid var(--a);padding:14px 16px}
+.re-els small{display:block;color:#888;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
+.re-els b{display:block;font-size:16px;margin-bottom:2px}
+.re-els span{display:block;color:#666;font-size:13.5px;line-height:1.5}
+.re-els-wide{grid-column:1/-1}
+.re-chips{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 0}
+.re-chips em{font-style:normal;background:#faf7f1;border:1px solid #eee5d5;padding:5px 12px;border-radius:99px;font-size:13.5px}
+@media(max-width:860px){.re-els{grid-template-columns:1fr 1fr}.re-fix-row{grid-template-columns:1fr 1fr 1fr}.re-upd{grid-column:1/-1}}
+@media(max-width:560px){.re-els{grid-template-columns:1fr}.re-fix-row{grid-template-columns:1fr 1fr}}
+
+/* ---- before / after ---- */
+.re-ba-box{position:relative;line-height:0;background:#111;overflow:hidden;user-select:none;touch-action:pan-y}
+.re-ba-box img{display:block;width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.re-ba-box img:first-child{position:relative;height:auto;object-fit:contain}
+.re-ba-box #reBAafter{clip-path:inset(0 0 0 50%)}
+.re-ba-tag{position:absolute;top:12px;padding:5px 12px;background:rgba(17,17,17,.75);color:#fff;font:700 12px/1 'Helvetica Neue',Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase}
+.re-ba-tag.l{left:12px}.re-ba-tag.r{right:12px;background:var(--a);color:#111}
+.re-ba-box input[type=range]{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+.re-ba-line{position:absolute;top:0;bottom:0;left:50%;width:2px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.3);pointer-events:none}
+.re-ba-line::after{content:"\2194";position:absolute;top:50%;left:50%;width:36px;height:36px;margin:-18px 0 0 -18px;border-radius:50%;background:#fff;color:#111;font:700 18px/36px Arial,sans-serif;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.35)}
+.re-btn.busy{opacity:.7;cursor:wait}
+@media(max-width:860px){.re-form,.re-top{grid-template-columns:1fr}.re-hl{grid-template-columns:1fr 1fr}.re{padding:40px 0 70px}}
+@media print{.hx,.re-card.formcard,.re-cta{display:none!important}.re{background:#fff;padding:0}}
+</style>
+
+<section class="re" id="upload">
+  <div class="re-w">
+    <div class="re-hd">
+      <div class="re-kick">AI Room Estimate</div>
+      <h1>Know Your Room's Interior Cost in Minutes</h1>
+      <p>Upload one photo of the room you want to design. AI reads the room type, size, furniture, ceiling, lighting, painting and flooring, then prepares a detailed estimate for that room only.</p>
+      <div class="re-steps"><span>1 &middot; Upload a room photo</span><span>2 &middot; Click Analyze My Room</span><span>3 &middot; Get your cost estimate</span></div>
+    </div>
+
+    <div class="re-card formcard">
+      <form class="re-form" method="post" action="{{ url_for('room_estimate') }}#result" enctype="multipart/form-data">
+        <div class="re-up" id="reUp">
+          <div class="re-lab">Room photo <small>(JPG, PNG or WEBP &middot; max 10 MB)</small></div>
+          <label class="re-file" id="reDrop" for="rePhoto">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3"/></svg>
+            <b>Click to upload</b> or drag &amp; drop
+            <span class="re-fh">Take the photo from a corner so the whole room, ceiling and floor are visible.</span>
+          </label>
+          <input class="re-hide" type="file" id="rePhoto" name="photo" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" required>
+          <div class="re-prev" id="rePrev" hidden>
+            <img id="rePrevImg" alt="Your room photo preview">
+            <div class="re-prev-bar">
+              <div class="re-prev-name"><b id="rePrevName"></b><small id="rePrevSize"></small></div>
+              <div class="re-prev-btns">
+                <button type="button" class="re-mini" id="reReplace">Replace</button>
+                <button type="button" class="re-mini re-del" id="reRemove">Remove</button>
+              </div>
+            </div>
+          </div>
+          <div class="re-msg err" id="reFileErr" role="alert" hidden></div>
+        </div>
+        <div class="re-fields">
+          <div class="full">
+            <div class="re-lab">Room type</div>
+            <div class="re-rooms" role="radiogroup" aria-label="Room type">
+              {% set rsel = form.room if form.room in ('bedroom','living_room','kitchen') else 'auto' %}
+              {% for val, lab, ic in [('bedroom','Bedroom','M3 18v-6a2 2 0 012-2h14a2 2 0 012 2v6M3 18h18M3 14h18M6 10V7a1 1 0 011-1h4a1 1 0 011 1v3'),('living_room','Living Room','M5 11V8a2 2 0 012-2h10a2 2 0 012 2v3M3 14a2 2 0 014 0v1h10v-1a2 2 0 014 0v4H3zM6 18v2M18 18v2'),('kitchen','Kitchen','M4 4h16v6H4zM4 10v10h16V10M8 7h.01M12 7h.01M16 7h.01M8 15h8'),('auto','Auto-detect','M12 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2z')] %}
+              <label class="re-room">
+                <input type="radio" name="room" value="{{ val }}" {% if rsel == val %}checked{% endif %}>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ ic }}"/></svg>{{ lab }}</span>
+              </label>
+              {% endfor %}
+            </div>
+          </div>
+          <label>Design style
+            <select class="re-in" name="style">
+              <option value="">Let AI choose</option>
+              {% for st in ["Modern","Minimal","Indian Contemporary","Classic","Scandinavian","Luxury"] %}
+              <option value="{{ st }}" {% if form.style == st %}selected{% endif %}>{{ st }}</option>
+              {% endfor %}
+            </select>
+          </label>
+          <label>Quality level
+            <select class="re-in" name="tier">
+              <option value="standard" {% if form.tier == 'standard' %}selected{% endif %}>Standard</option>
+              <option value="premium" {% if form.tier in ('', 'premium', none) %}selected{% endif %}>Premium</option>
+              <option value="luxury" {% if form.tier == 'luxury' %}selected{% endif %}>Luxury</option>
+            </select>
+          </label>
+          <label>Length (ft)
+            <input class="re-in" type="number" name="length_ft" min="5" max="60" step="0.5" inputmode="decimal" placeholder="optional" value="{{ form.length_ft or '' }}">
+          </label>
+          <label>Width (ft)
+            <input class="re-in" type="number" name="width_ft" min="5" max="60" step="0.5" inputmode="decimal" placeholder="optional" value="{{ form.width_ft or '' }}">
+          </label>
+          <label>Height (ft)
+            <input class="re-in" type="number" name="height_ft" min="7" max="15" step="0.5" inputmode="decimal" placeholder="optional" value="{{ form.height_ft or '' }}">
+          </label>
+          <p class="re-hint">If you know the room size, enter it &mdash; those numbers are marked <b>&ldquo;You confirmed&rdquo;</b> and the estimate becomes much more accurate. Anything you leave blank is measured by AI from the photo and marked <b>&ldquo;AI estimate&rdquo;</b>.</p>
+          <button class="re-btn" id="reGo" type="submit" {% if not ai_enabled %}disabled{% endif %}>Analyze My Room</button>
+        </div>
+      </form>
+      {% if not ai_enabled %}<div class="re-msg info">AI analysis is not switched on yet. Please call us for a manual estimate.</div>{% endif %}
+      {% if error %}<div class="re-msg err" role="alert">{{ error }}</div>{% endif %}
+      <p class="re-note">Your photo is used only to prepare this estimate and is not stored on our server. Analysis can take 20&ndash;40 seconds after you click the button.</p>
+    </div>
+
+    {% if result %}
+    {% set room = result.room %}{% set est = result.estimate %}{% set d = result.design %}
+    <div class="re-out" id="result">
+      <div class="re-top">
+        <div class="re-photo">
+          <img src="{{ photo_url }}" alt="Your {{ room.label }}">
+          {% for o in result.objects %}{% if o.box %}
+          <div class="re-pin" style="left:{{ o.box[0] }}%;top:{{ o.box[1] }}%;width:{{ o.box[2] }}%;height:{{ o.box[3] }}%"><b>{{ o.n }}</b></div>
+          {% endif %}{% endfor %}
+        </div>
+        <div class="re-side re-card">
+          <h3>{{ room.label }} &middot; {{ room.area_sqft }} sq.ft</h3>
+          <div class="re-stats">
+            <div><small>Room type</small><b>{{ room.label }}</b></div>
+            <div><small>Floor area</small><b>{{ room.area_sqft }} sq.ft</b></div>
+            <div><small>Size (L &times; W &times; H)</small><b>{{ room.length_ft }} &times; {{ room.width_ft }} &times; {{ room.height_ft }} ft</b></div>
+            <div><small>Size source</small><b>{{ room.size_source }}</b></div>
+            {% if room.current_style %}<div><small>Current style</small><b>{{ room.current_style }}</b></div>{% endif %}
+            {% if room.condition %}<div><small>Condition</small><b>{{ room.condition }}</b></div>{% endif %}
+          </div>
+          {% if room.summary %}<p class="re-sum">{{ room.summary }}</p>{% endif %}
+          <ul class="re-list">
+            {% for o in result.objects %}<li><i>{{ o.n }}</i><div><b>{{ o.label }}</b>{% if o.note %} <span>&mdash; {{ o.note }}</span>{% endif %}</div></li>{% endfor %}
+          </ul>
+        </div>
+      </div>
+
+
+      <div class="re-sec"><h2>Room measurements</h2><p>{% if room.all_confirmed %}All three sizes are confirmed by you.{% elif room.user_confirmed %}Some sizes are confirmed by you, the rest are AI estimates.{% else %}These sizes are AI estimates from the photo{% if room.confidence %} (AI confidence: {{ room.confidence }}){% endif %}. Enter your real measurements below for a more accurate estimate.{% endif %}</p></div>
+      <div class="re-card">
+        <div class="re-tblw" style="box-shadow:none;margin-top:0">
+          <table class="re-tbl re-meas">
+            <thead><tr><th>Measurement</th><th class="n">Value</th><th>Source</th><th>AI estimate</th></tr></thead>
+            <tbody>
+            {% for m in room.measure %}
+              <tr>
+                <td>{{ m.label }}</td>
+                <td class="n"><b>{{ m.value }} {{ m.unit }}</b></td>
+                <td>{% if m.source == 'user' %}<span class="re-src user">&#10003; You confirmed</span>{% elif m.source == 'mixed' %}<span class="re-src mixed">Partly your input</span>{% else %}<span class="re-src ai">AI estimate</span>{% endif %}</td>
+                <td>{% if m.source == 'ai' %}<span style="color:#999">same as value</span>{% else %}{{ m.ai_value }} {{ m.unit }}{% endif %}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <p class="re-note" style="margin-top:10px">Wall area = all four walls minus the doors and windows AI could see{% if room.elements.openings_sqft %} (about {{ room.elements.openings_sqft }} sq.ft of openings, always AI-estimated){% endif %}. Floor area = length &times; width.</p>
+
+        <form class="re-fix" method="post" action="{{ url_for('room_estimate') }}#result">
+          <input type="hidden" name="recalc" value="1">
+          <input type="hidden" name="ai_json" value="{{ ai_json }}">
+          <input type="hidden" name="photo_data" value="{{ photo_url }}">
+          <input type="hidden" name="room" value="{{ form.room or '' }}">
+          <input type="hidden" name="style" value="{{ form.style or '' }}">
+          <input type="hidden" name="tier" value="{{ form.tier or 'premium' }}">
+          <div class="re-lab">Enter or correct your actual measurements <small>(feet &middot; leave blank to keep the AI estimate)</small></div>
+          <div class="re-fix-row">
+            {% for k, lab, lo, hi in [('length_ft','Length',5,60),('width_ft','Width',5,60),('height_ft','Height',7,15)] %}
+            <label>{{ lab }} (ft)
+              <input class="re-in" type="number" name="{{ k }}" min="{{ lo }}" max="{{ hi }}" step="0.5" inputmode="decimal"
+                     placeholder="AI: {{ room.measure[loop.index0].ai_value }}" value="{{ form[k] or '' }}">
+            </label>
+            {% endfor %}
+            <button class="re-mini re-upd" type="submit">Update estimate</button>
+          </div>
+        </form>
+      </div>
+
+      {% if room.elements.present %}
+      {% set el = room.elements %}
+      <div class="re-sec"><h2>What AI found in your photo</h2><p>Detected from the photo &mdash; these are AI observations, not measurements.</p></div>
+      <div class="re-els">
+        <div><small>Room type</small><b>{{ room.label }}</b></div>
+        <div><small>Walls</small><b>{{ el.walls.visible }} visible</b><span>{{ el.walls.finish or 'finish not clear' }}{% if el.walls.condition %} &middot; {{ el.walls.condition }}{% endif %}</span></div>
+        <div><small>Flooring</small><b>{{ el.flooring.type or 'Not clear' }}</b><span>{{ el.flooring.condition }}</span></div>
+        <div><small>Ceiling</small><b>{{ el.ceiling.type or 'Not clear' }}</b><span>{{ el.ceiling.condition }}</span></div>
+        <div><small>Doors ({{ el.doors|length }})</small>{% for o in el.doors %}<span>{{ o.type }} &middot; ~{{ o.w_ft }}&times;{{ o.h_ft }} ft</span>{% else %}<span>None seen</span>{% endfor %}</div>
+        <div><small>Windows ({{ el.windows|length }})</small>{% for o in el.windows %}<span>{{ o.type }} &middot; ~{{ o.w_ft }}&times;{{ o.h_ft }} ft</span>{% else %}<span>None seen</span>{% endfor %}</div>
+        <div class="re-els-wide"><small>Furniture</small>{% if el.furniture %}<p class="re-chips">{% for f in el.furniture %}<em>{{ f }}</em>{% endfor %}</p>{% else %}<span>None clearly visible</span>{% endif %}</div>
+      </div>
+      {% endif %}
+
+      <div class="re-sec"><h2>Your interior design concept</h2>{% if d.summary %}<p>{{ d.summary }}</p>{% endif %}</div>
+      <div class="re-card">
+        <h3 style="margin:0 0 6px;font-family:'Playfair Display',Georgia,serif;font-size:24px">{{ d.style_name }}</h3>
+        {% if d.palette %}<div class="re-pal">{% for c in d.palette %}<span><em style="background:{{ c.hex }}"></em>{{ c.name }}</span>{% endfor %}</div>{% endif %}
+        {% if d.materials %}<ul class="re-list">{% for m in d.materials %}<li><div>{{ m }}</div></li>{% endfor %}</ul>{% endif %}
+      </div>
+
+
+      <div class="re-sec"><h2>See your room after the makeover</h2><p>AI redesigns <b>your own photo</b> using the concept above &mdash; same room, same angle, new design.</p></div>
+      <div class="re-card re-after" id="reAfter">
+        <form id="reAfterForm" hidden>
+          <input type="hidden" name="room" value="{{ form.room or '' }}">
+          <input type="hidden" name="style" value="{{ form.style or '' }}">
+          <input type="hidden" name="tier" value="{{ form.tier or 'premium' }}">
+          <input type="hidden" name="length_ft" value="{{ form.length_ft or '' }}">
+          <input type="hidden" name="width_ft" value="{{ form.width_ft or '' }}">
+          <input type="hidden" name="height_ft" value="{{ form.height_ft or '' }}">
+        </form>
+        <button type="button" class="re-btn" id="reAfterBtn" hidden>Generate After Photo</button>
+        <p class="re-note" id="reAfterNote" style="margin-top:10px" hidden>Your after photo is being created automatically &mdash; usually ready in 15&ndash;30 seconds. You can read your estimate meanwhile.</p>
+        <div class="re-msg err" id="reAfterErr" role="alert" hidden></div>
+        <div class="re-ba" id="reBA" hidden>
+          <div class="re-ba-box" id="reBABox">
+            <img id="reBAbefore" alt="Before">
+            <img id="reBAafter" alt="After (AI design)">
+            <span class="re-ba-tag l">Before</span><span class="re-ba-tag r">After</span>
+            <input type="range" id="reBARange" min="0" max="100" value="50" aria-label="Compare before and after">
+            <i class="re-ba-line" id="reBALine"></i>
+          </div>
+          <div class="re-cta" style="margin-top:14px">
+            <a class="g" id="reDl" download="after-design.jpg" href="#">Download after photo</a>
+            <a href="#" id="reRegen">Generate again</a>
+          </div>
+          <p class="re-note">AI-generated visualisation for inspiration. The finished room may differ in colours, finishes and furniture.</p>
+        </div>
+      </div>
+
+      <div class="re-sec"><h2>Estimated interior cost</h2><p>For this {{ room.label|lower }} only &mdash; {{ est.tier_label }} quality.</p></div>
+      <div class="re-price">
+        <div><div class="lab">Estimated cost</div><div class="big">{{ est.total|inr }}</div><div class="rng">Likely range {{ est.low|inr }} &ndash; {{ est.high|inr }}</div></div>
+        <div class="rt">{{ est.tier_label }}</div>
+      </div>
+
+      {% if highlights %}
+      <div class="re-hl">
+        {% for h in highlights %}<div><small>{{ h.label }}</small><b>{{ h.amount|inr }}</b><span>{{ h.note }}</span></div>{% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="re-tblw">
+        <table class="re-tbl">
+          <thead><tr><th>#</th><th>Item</th><th class="n">Qty</th><th class="n">Rate</th><th class="n">Amount</th></tr></thead>
+          <tbody>
+          {% for g in groups %}
+            <tr class="g"><td colspan="4">{{ g.name }}</td><td class="n">{{ g.subtotal|inr }}</td></tr>
+            {% for i in g.rows %}
+            <tr>
+              <td>{{ i.n }}</td>
+              <td>{{ i.label }}{% if i.reason %}<small>{{ i.reason }}</small>{% endif %}</td>
+              <td class="n">{{ '{:,}'.format(i.qty) }} {{ i.unit_short }}</td>
+              <td class="n">{{ i.rate|inr }}</td>
+              <td class="n">{{ i.amount|inr }}</td>
+            </tr>
+            {% endfor %}
+          {% endfor %}
+            <tr class="t"><td colspan="4">Total estimated cost</td><td class="n">{{ est.total|inr }}</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="re-note">This is an AI-prepared estimate from one photo, for planning only. The final quotation depends on the site visit, exact measurements, brands and finishes you choose.</p>
+      {% if result.assumptions %}<ul class="re-ass">{% for a in result.assumptions %}<li>{{ a }}</li>{% endfor %}</ul>{% endif %}
+
+      <div class="re-cta">
+        <a class="g" href="{{ book_url }}">Book a Free Consultation</a>
+        <a class="d" href="{{ wa_link }}" target="_blank" rel="noopener">Share on WhatsApp</a>
+        <a href="{{ url_for('room_estimate') }}#upload">Try another room</a>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</section>
+<script>
+(function(){
+  var MB=1024*1024, MAX=10*MB, OK=/\.(jpe?g|png|webp)$/i, TYPES=['image/jpeg','image/png','image/webp'];
+  var inp=document.getElementById('rePhoto'); if(!inp) return;
+  var drop=document.getElementById('reDrop'), prev=document.getElementById('rePrev'),
+      img=document.getElementById('rePrevImg'), nm=document.getElementById('rePrevName'),
+      sz=document.getElementById('rePrevSize'), err=document.getElementById('reFileErr'),
+      form=inp.form, go=document.getElementById('reGo'), url=null;
+  function fmt(b){return b>=MB?(b/MB).toFixed(1)+' MB':Math.max(1,Math.round(b/1024))+' KB';}
+  function showErr(t){err.textContent=t;err.hidden=!t;}
+  function clear(){ if(url){URL.revokeObjectURL(url);url=null;} inp.value=''; img.removeAttribute('src'); prev.hidden=true; drop.hidden=false; }
+  function show(f){
+    if(url) URL.revokeObjectURL(url);
+    url=URL.createObjectURL(f); img.src=url; nm.textContent=f.name; sz.textContent=fmt(f.size);
+    prev.hidden=false; drop.hidden=true; showErr('');
+  }
+  function check(f){
+    var okType=TYPES.indexOf(f.type)>-1 || (!f.type && OK.test(f.name));
+    if(!okType||!OK.test(f.name)) return 'Please upload a JPG, PNG or WEBP photo.';
+    if(f.size>MAX) return 'That photo is '+fmt(f.size)+'. Please upload one under 10 MB.';
+    if(f.size===0) return 'This file is empty. Please choose another photo.';
+    return '';
+  }
+  function take(f){
+    var e=check(f);
+    if(e){ clear(); showErr(e); return false; }
+    show(f); return true;
+  }
+  inp.addEventListener('change',function(){
+    var f=inp.files&&inp.files[0];
+    if(!f){ /* picker cancelled while replacing: keep the old preview only if a file is still set */ if(prev.hidden) drop.hidden=false; return; }
+    take(f);
+  });
+  document.getElementById('reRemove').addEventListener('click',function(){ clear(); showErr(''); });
+  document.getElementById('reReplace').addEventListener('click',function(){ inp.click(); });
+  ['dragenter','dragover'].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.add('over');});});
+  ['dragleave','drop'].forEach(function(ev){drop.addEventListener(ev,function(){drop.classList.remove('over');});});
+  drop.addEventListener('drop',function(e){
+    e.preventDefault();
+    var f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0]; if(!f) return;
+    try{ var dt=new DataTransfer(); dt.items.add(f); inp.files=dt.files; }catch(x){}
+    take(f);
+  });
+  form.addEventListener('submit',function(e){
+    var f=inp.files&&inp.files[0];
+    if(!f){ e.preventDefault(); showErr('Please upload a photo of your room first.'); drop.scrollIntoView({block:'center',behavior:'smooth'}); return; }
+    var m=check(f); if(m){ e.preventDefault(); showErr(m); return; }
+    if(go){ go.disabled=true; go.classList.add('busy'); go.textContent='Analyzing your room\u2026 please wait'; }
+    if(form.dataset.small==='1') return;            // already resized -> let the form go
+    e.preventDefault();
+    shrink(f).then(function(small){
+      if(small){ try{ var dt=new DataTransfer(); dt.items.add(small); inp.files=dt.files; }catch(x){} }
+      form.dataset.small='1'; form.submit();
+    });
+  });
+  // resize to max 1024px JPEG in the browser: upload drops from MBs to ~150 KB
+  function shrink(f){
+    return new Promise(function(done){
+      if(f.size<400*1024){ done(null); return; }
+      var u=URL.createObjectURL(f), im=new Image();
+      im.onload=function(){
+        try{
+          var s=Math.min(1,1024/Math.max(im.naturalWidth,im.naturalHeight)), c=document.createElement('canvas');
+          c.width=Math.round(im.naturalWidth*s); c.height=Math.round(im.naturalHeight*s);
+          c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+          c.toBlob(function(b){ URL.revokeObjectURL(u); done(b?new File([b],'room.jpg',{type:'image/jpeg'}):null); },'image/jpeg',0.8);
+        }catch(x){ URL.revokeObjectURL(u); done(null); }
+      };
+      im.onerror=function(){ URL.revokeObjectURL(u); done(null); };
+      im.src=u;
+    });
+  }
+})();
+</script>
+<script>
+(function(){
+  var btn=document.getElementById('reAfterBtn'); if(!btn) return;
+  var fix=document.querySelector('.re-fix'), form=document.getElementById('reAfterForm'),
+      err=document.getElementById('reAfterErr'), note=document.getElementById('reAfterNote'),
+      ba=document.getElementById('reBA'), bImg=document.getElementById('reBAbefore'), aImg=document.getElementById('reBAafter'),
+      rng=document.getElementById('reBARange'), line=document.getElementById('reBALine'), dl=document.getElementById('reDl');
+  var before=document.querySelector('.re-photo img'); if(!fix||!before) return;
+  btn.hidden=false; note.hidden=false;
+  function split(){ var v=+rng.value; aImg.style.clipPath='inset(0 0 0 '+v+'%)'; line.style.left=v+'%'; }
+  rng.addEventListener('input',split);
+  var tm=null;
+  function run(auto){
+    err.hidden=true; btn.hidden=false; btn.disabled=true; btn.classList.add('busy');
+    var t0=Date.now(); btn.textContent='Creating your after photo\u2026 0s';
+    clearInterval(tm); tm=setInterval(function(){ btn.textContent='Creating your after photo\u2026 '+Math.round((Date.now()-t0)/1000)+'s'; },1000);
+    var fd=new FormData(form);
+    fd.append('ai_json',fix.querySelector('[name=ai_json]').value);
+    fd.append('photo_data',fix.querySelector('[name=photo_data]').value);
+    fetch('{{ url_for("room_estimate_after") }}',{method:'POST',body:fd}).then(function(r){return r.json().catch(function(){return {ok:false,error:'Server error. Please try again.'};});})
+    .then(function(d){
+      if(!d.ok){ err.textContent=d.error||'Could not create the after photo.'; err.hidden=false; return; }
+      bImg.src=before.src; aImg.src=d.image; dl.href=d.image; rng.value=50; split();
+      ba.hidden=false; btn.hidden=true; note.hidden=true;
+      if(auto!==true) ba.scrollIntoView({block:'center',behavior:'smooth'});   // don't pull the page away while they read
+    }).catch(function(){ err.textContent='Network problem. Please try again.'; err.hidden=false; })
+    .then(function(){ clearInterval(tm); btn.disabled=false; btn.classList.remove('busy'); btn.textContent='Generate After Photo'; });
+  }
+  btn.addEventListener('click',function(){ run(); });
+  setTimeout(function(){ run(true); },300);   // start right away so it is ready while they read the estimate
+  document.getElementById('reRegen').addEventListener('click',function(e){ e.preventDefault(); ba.hidden=true; btn.hidden=false; note.hidden=false; run(); });
+})();
+</script>
+{% endblock %}

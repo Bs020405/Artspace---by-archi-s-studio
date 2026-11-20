@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interior Company — Interior Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --black:#050505;
+  --white:#fff;
+  --text:#181818;
+  --muted:#666;
+  --line:#e4e4e4;
+  --soft:#f7f7f5;
+  --accent:#b68b55;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#fff;color:var(--text);font-family:"DM Sans",Arial,sans-serif}
+img{display:block;width:100%;height:100%;object-fit:cover}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+.container{width:min(100%,1775px);margin:auto;padding:0 28px}
+
+/* ================= TOP AD / HERO ================= */
+.ad-hero{
+  height:455px;
+  display:grid;
+  grid-template-columns:55.5% 44.5%;
+  background:#000;
+  color:#fff;
+}
+.ad-copy{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:35px;
+}
+.ad-brand{
+  font-size:47px;
+  font-weight:600;
+  letter-spacing:-2px;
+  margin-bottom:55px;
+}
+.ad-brand .sun{
+  display:inline-grid;
+  place-items:center;
+  width:43px;height:43px;
+  border-radius:50%;
+  margin-right:8px;
+  font-size:35px;
+  border:7px dotted #fff;
+  vertical-align:middle;
+}
+.ad-title{
+  font-size:54px;
+  font-weight:400;
+  line-height:1.1;
+  margin:0 0 52px;
+}
+.outline-btn{
+  border:1.5px solid currentColor;
+  border-radius:30px;
+  padding:10px 28px;
+  font-size:18px;
+  background:transparent;
+  color:inherit;
+  transition:.25s;
+}
+.outline-btn:hover{background:#fff;color:#000}
+.ad-photo{
+  position:relative;
+  overflow:hidden;
+}
+.ad-photo img{filter:saturate(.85) brightness(.82)}
+.slider-arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:60px;height:60px;
+  border:0;border-radius:50%;
+  background:rgba(255,255,255,.85);
+  color:#777;
+  font-size:42px;
+  line-height:1;
+  cursor:pointer;
+}
+.slider-arrow.left{left:16px}
+.slider-arrow.right{right:16px}
+
+/* ================= BRAND ================= */
+.brand-area{
+  height:183px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#fff;
+}
+.logo{
+  font-family:"Playfair Display",serif;
+  font-size:80px;
+  line-height:.78;
+  letter-spacing:-6px;
+  text-align:center;
+  font-weight:500;
+}
+.logo span{display:block}
+
+/* ================= NAV ================= */
+.main-nav{
+  height:65px;
+  border-top:1px solid #ddd;
+  border-bottom:1px solid #ddd;
+  background:#fff;
+  display:grid;
+  grid-template-columns:90px 1fr 90px;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+.search-btn,.menu-btn{
+  height:100%;
+  border:0;
+  background:#fff;
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+}
+.search-icon{
+  width:21px;height:21px;
+  border:2px solid #555;
+  border-radius:50%;
+  position:relative;
+}
+.search-icon:after{
+  content:"";
+  position:absolute;
+  width:9px;height:2px;
+  background:#555;
+  transform:rotate(45deg);
+  right:-7px;bottom:-4px;
+}
+.nav-links{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:78px;
+}
+.nav-links a{
+  font-size:18px;
+  letter-spacing:.02em;
+  white-space:nowrap;
+}
+.nav-links a:hover{color:#777}
+.chevron{
+  width:14px;height:14px;
+  border-right:2px solid #555;
+  border-bottom:2px solid #555;
+  transform:rotate(45deg) translateY(-3px);
+}
+
+/* ================= FEATURE ================= */
+.feature{
+  position:relative;
+  height:650px;
+  overflow:hidden;
+}
+.feature img{filter:brightness(.72)}
+.feature-overlay{
+  position:absolute;inset:0;
+  display:flex;
+  align-items:flex-end;
+  padding:0 55px 42px;
+  color:#fff;
+  background:linear-gradient(transparent 55%,rgba(0,0,0,.65));
+}
+.feature-copy{max-width:800px}
+.kicker{
+  font-size:14px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  margin-bottom:9px;
+}
+.feature h1{
+  font-family:"Playfair Display",serif;
+  font-size:46px;
+  font-weight:500;
+  margin:0;
+}
+
+/* ================= SERVICES ================= */
+.services{
+  padding:75px 0 100px;
+}
+.services-layout{
+  display:grid;
+  grid-template-columns:43% 57%;
+  gap:50px;
+  align-items:start;
+}
+.services-title{
+  font-size:58px;
+  font-weight:500;
+  line-height:1.03;
+  margin:0 0 45px;
+  max-width:700px;
+}
+.service-box{
+  border:1px solid #ddd;
+  padding:47px 42px 42px;
+}
+.service-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:30px 24px;
+}
+.service{
+  text-align:center;
+  cursor:pointer;
+}
+.service-icon{
+  width:92px;height:92px;
+  margin:auto auto 14px;
+  border-radius:14px;
+  background:#f4f4f4;
+  display:grid;
+  place-items:center;
+  font-size:47px;
+  transition:.25s;
+}
+.service:hover .service-icon{
+  transform:translateY(-4px);
+  background:#ece8e1;
+}
+.service-name{
+  font-size:17px;
+  line-height:1.18;
+}
+
+/* collage */
+.collage{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:1fr 1fr;
+  gap:14px;
+  height:620px;
+}
+.collage .big{grid-row:1 / span 2}
+.collage-item{overflow:hidden}
+.collage-item img{transition:transform .5s}
+.collage-item:hover img{transform:scale(1.04)}
+
+/* ================= PRODUCTS ================= */
+.products{
+  background:#f5f5f3;
+  padding:85px 0;
+}
+.products h2{
+  font-family:"Playfair Display",serif;
+  font-size:48px;
+  font-weight:500;
+  margin:0 0 35px;
+}
+.product-row{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+}
+.product{
+  background:#fff;
+  min-height:380px;
+}
+.product-photo{height:270px}
+.product-info{padding:18px 20px}
+.product-info small{text-transform:uppercase;letter-spacing:.12em;color:#888}
+.product-info h3{font-family:"Playfair Display",serif;font-size:24px;margin:7px 0}
+
+/* ================= PROJECTS ================= */
+.projects{padding:90px 0}
+.projects-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  margin-bottom:38px;
+}
+.projects h2{
+  font-family:"Playfair Display",serif;
+  font-size:52px;
+  font-weight:500;
+  margin:0;
+}
+.projects-head p{max-width:450px;color:#666;line-height:1.6}
+.project-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:22px;
+}
+.project{overflow:hidden}
+.project-photo{height:420px}
+.project-photo img{transition:.5s}
+.project:hover img{transform:scale(1.04)}
+.project h3{
+  font-family:"Playfair Display",serif;
+  font-size:25px;
+  font-weight:500;
+  margin:15px 0 4px;
+}
+.project p{margin:0;color:#777}
+
+/* ================= FOOTER ================= */
+footer{
+  background:#050505;
+  color:#fff;
+  padding:70px 0 28px;
+}
+.footer-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:45px;
+  padding-bottom:50px;
+  border-bottom:1px solid #333;
+}
+.footer-logo{
+  font-family:"Playfair Display",serif;
+  font-size:40px;
+  letter-spacing:-2px;
+}
+footer p{color:#aaa;line-height:1.7;max-width:390px}
+footer h4{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#aaa}
+footer ul{list-style:none;padding:0;margin:0;line-height:2.1;color:#ddd}
+.footer-bottom{
+  padding-top:24px;
+  display:flex;
+  justify-content:space-between;
+  color:#777;
+  font-size:13px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:1000px){
+  .ad-hero{height:400px}
+  .ad-brand{font-size:35px;margin-bottom:35px}
+  .ad-title{font-size:40px;margin-bottom:35px}
+  .nav-links{gap:28px}
+  .nav-links a{font-size:14px}
+  .services-layout{grid-template-columns:1fr}
+  .collage{height:520px}
+  .product-row{grid-template-columns:repeat(2,1fr)}
+  .footer-grid{grid-template-columns:1.5fr 1fr 1fr}
+}
+@media(max-width:700px){
+  .container{padding:0 18px}
+  .ad-hero{
+    height:auto;
+    grid-template-columns:1fr;
+  }
+  .ad-copy{height:300px}
+  .ad-photo{height:280px}
+  .ad-title{font-size:34px}
+  .brand-area{height:115px}
+  .logo{font-size:48px;letter-spacing:-4px}
+  .main-nav{grid-template-columns:60px 1fr 60px;height:58px}
+  .nav-links{display:none}
+  .feature{height:430px}
+  .feature-overlay{padding:0 22px 28px}
+  .feature h1{font-size:31px}
+  .services{padding:55px 0}
+  .services-title{font-size:43px;margin-bottom:30px}
+  .service-box{padding:30px 18px}
+  .service-grid{grid-template-columns:repeat(2,1fr);gap:28px 12px}
+  .service-icon{width:72px;height:72px;font-size:38px}
+  .service-name{font-size:14px}
+  .collage{
+    height:420px;
+    gap:8px;
+  }
+  .products{padding:55px 0}
+  .product-row{grid-template-columns:1fr 1fr;gap:12px}
+  .product-photo{height:180px}
+  .projects{padding:60px 0}
+  .projects-head{display:block}
+  .projects h2{font-size:42px}
+  .project-grid{grid-template-columns:1fr}
+  .project-photo{height:330px}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .footer-grid>div:first-child{grid-column:1/-1}
+  .footer-bottom{display:block;line-height:2}
+}
+@media(max-width:420px){
+  .product-row{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOP PROMOTIONAL HERO: inspired by the reference layout -->
+<section class="ad-hero">
+  <div class="ad-copy">
+    <div class="ad-brand"><span class="sun">✺</span>INTERIOR COMPANY</div>
+    <h2 class="ad-title">The Space<br>You Feel</h2>
+    <a class="outline-btn" href="#contact">BOOK A CONSULTATION</a>
+  </div>
+
+  <div class="ad-photo">
+    <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1400&q=85" alt="Warm modern interior">
+    <button class="slider-arrow left" aria-label="Previous image">‹</button>
+    <button class="slider-arrow right" aria-label="Next image">›</button>
+  </div>
+</section>
+
+<!-- CENTERED MAGAZINE-STYLE LOGO -->
+<section class="brand-area">
+  <div class="logo">INTERIOR<span>COMPANY</span></div>
+</section>
+
+<!-- MAGAZINE NAVIGATION -->
+<nav class="main-nav">
+  <button class="search-btn" aria-label="Search"><span class="search-icon"></span></button>
+  <div class="nav-links">
+    <a href="#projects">PROJECTS</a>
+    <a href="#products">PRODUCTS</a>
+    <a href="#journal">DESIGNWIRE</a>
+    <a href="#services">HOMES</a>
+    <a href="#projects">BEST OF YEAR</a>
+    <a href="#contact">SHOWROOM SHOWCASE</a>
+  </div>
+  <button class="menu-btn" aria-label="Menu"><span class="chevron"></span></button>
+</nav>
+
+<!-- LARGE FEATURE IMAGE -->
+<section class="feature">
+  <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2000&q=90" alt="Luxury interior design project">
+  <div class="feature-overlay">
+    <div class="feature-copy">
+      <div class="kicker">DESIGNWIRE</div>
+      <h1>Introducing Interior Company's 2026 Signature Spaces</h1>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES: same split arrangement as reference -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="services-layout">
+      <div>
+        <h2 class="services-title">Home services at your doorstep</h2>
+
+        <div class="service-box">
+          <div class="service-grid">
+            <a class="service" href="#contact">
+              <div class="service-icon">🛋️</div>
+              <div class="service-name">Living Room<br>Design</div>
+            </a>
+            <a class="service" href="#contact">
+              <div class="service-icon">🛏️</div>
+              <div class="service-name">Bedroom<br>Design</div>
+            </a>
+            <a class="service" href="#contact">
+              <div class="service-icon">🍽️</div>
+              <div class="service-name">Kitchen &amp;<br>Dining</div>
+            </a>
+            <a class="service" href="#contact">
+              <div class="service-icon">💡</div>
+              <div class="service-name">Lighting &amp;<br>Decor</div>
+            </a>
+            <a class="service" href="#contact">
+              <div class="service-icon">🧱</div>
+              <div class="service-name">Wall Panels &amp;<br>Textures</div>
+            </a>
+            <a class="service" href="#contact">
+              <div class="service-icon">🎨</div>
+              <div class="service-name">Painting &amp;<br>Colour</div>
+            </a>
+            <a class="service" href="#contact">
+              <div class="service-icon">❄️</div>
+              <div class="service-name">Smart Home &amp;<br>Appliances</div>
+            </a>
+            <a class="service" href="#contact">
+              <div class="service-icon">🔧</div>
+              <div class="service-name">Renovation &amp;<br>Execution</div>
+            </a>
+          </div>
+
+          <h3 style="font-size:24px;font-weight:500;margin:42px 0 0;">Native Smart Products</h3>
+        </div>
+      </div>
+
+      <div class="collage">
+        <div class="collage-item big">
+          <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1000&q=88" alt="Elegant living room">
+        </div>
+        <div class="collage-item">
+          <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=900&q=88" alt="Luxury bedroom interior">
+        </div>
+        <div class="collage-item">
+          <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=900&q=88" alt="Modern kitchen">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT / DESIGN COLLECTION -->
+<section class="products" id="products">
+  <div class="container">
+    <h2>Native Smart Products</h2>
+    <div class="product-row">
+      <article class="product">
+        <div class="product-photo"><img src="https://images.unsplash.com/photo-1540574163026-643ea20ade25?auto=format&fit=crop&w=900&q=85" alt="Designer sofa"></div>
+        <div class="product-info"><small>Furniture</small><h3>Curated Seating</h3></div>
+      </article>
+      <article class="product">
+        <div class="product-photo"><img src="https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=900&q=85" alt="Designer lighting"></div>
+        <div class="product-info"><small>Lighting</small><h3>Sculptural Lamps</h3></div>
+      </article>
+      <article class="product">
+        <div class="product-photo"><img src="https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=900&q=85" alt="Interior decor"></div>
+        <div class="product-info"><small>Decor</small><h3>Objects &amp; Art</h3></div>
+      </article>
+      <article class="product">
+        <div class="product-photo"><img src="https://images.unsplash.com/photo-1600566753051-2a8f9d1e8c95?auto=format&fit=crop&w=900&q=85" alt="Modern kitchen cabinets"></div>
+        <div class="product-info"><small>Materials</small><h3>Kitchen Finishes</h3></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects" id="projects">
+  <div class="container">
+    <div class="projects-head">
+      <div>
+        <div class="kicker" style="color:#888;">OUR WORK</div>
+        <h2>Spaces worth living in.</h2>
+      </div>
+      <p>Thoughtful interiors designed around the people who use them. From complete homes to one carefully considered room.</p>
+    </div>
+
+    <div class="project-grid">
+      <article class="project">
+        <div class="project-photo"><img src="https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?auto=format&fit=crop&w=1200&q=88" alt="Contemporary living room"></div>
+        <h3>The Aldergate Residence</h3>
+        <p>Residential · Living &amp; Dining</p>
+      </article>
+      <article class="project">
+        <div class="project-photo"><img src="https://images.unsplash.com/photo-1617104678098-de229db51175?auto=format&fit=crop&w=1200&q=88" alt="Designer bedroom"></div>
+        <h3>Hartwell House</h3>
+        <p>Residential · Bedroom</p>
+      </article>
+      <article class="project">
+        <div class="project-photo"><img src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1200&q=88" alt="Luxury dining room"></div>
+        <h3>Oak &amp; Stone Studio</h3>
+        <p>Commercial · Hospitality</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- DESIGNWIRE -->
+<section id="journal" style="background:#111;color:#fff;padding:80px 0;">
+  <div class="container">
+    <div class="kicker" style="color:#c7a16d;">DESIGNWIRE</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:clamp(38px,5vw,70px);font-weight:400;max-width:900px;margin:14px 0 30px;">
+      Ideas, materials and interiors that shape the way we live.
+    </h2>
+    <a class="outline-btn" href="#contact">EXPLORE THE JOURNAL</a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="padding:100px 0;text-align:center;">
+  <div class="container">
+    <div class="kicker">INTERIOR COMPANY</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:clamp(42px,6vw,78px);font-weight:400;max-width:1000px;margin:15px auto 35px;">
+      Tell us about the space you want to transform.
+    </h2>
+    <a class="outline-btn" style="color:#111;border-color:#111;" href="mailto:hello@interiorcompany.com">BOOK A CONSULTATION</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Interior Company</div>
+        <p>A design studio creating refined, functional and deeply personal interiors for modern homes and spaces.</p>
+      </div>
+      <div><h4>Explore</h4><ul><li><a href="#projects">Projects</a></li><li><a href="#services">Services</a></li><li><a href="#products">Products</a></li></ul></div>
+      <div><h4>Studio</h4><ul><li><a href="#journal">Designwire</a></li><li><a href="#contact">Consultation</a></li><li><a href="#services">Homes</a></li></ul></div>
+      <div><h4>Contact</h4><ul><li><a href="mailto:hello@interiorcompany.com">hello@interiorcompany.com</a></li><li><a href="tel:+919999999999">+91 99999 99999</a></li><li>Open by appointment</li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Interior Company. All rights reserved.</span>
+      <span>Designed for better living.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Simple hero image slider */
+const heroImages = [
+  "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1400&q=85"
+];
+let heroIndex = 0;
+const heroImg = document.querySelector(".ad-photo img");
+document.querySelector(".slider-arrow.right").addEventListener("click",()=>{
+  heroIndex=(heroIndex+1)%heroImages.length;
+  heroImg.src=heroImages[heroIndex];
+});
+document.querySelector(".slider-arrow.left").addEventListener("click",()=>{
+  heroIndex=(heroIndex-1+heroImages.length)%heroImages.length;
+  heroImg.src=heroImages[heroIndex];
+});
+
+/* Auto-rotate hero */
+setInterval(()=>{
+  heroIndex=(heroIndex+1)%heroImages.length;
+  heroImg.src=heroImages[heroIndex];
+},6000);
+</script>
+</body>
+</html>
